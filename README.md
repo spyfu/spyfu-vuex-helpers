@@ -38,14 +38,13 @@ export default {
 }
 ```
 
-To avoid writing these redundant getters and setters, we can use the `mapTwoWayState` helper. The `namespace` argument is optional.
+To avoid writing these redundant getters and setters, we can use the `mapTwoWayState` helper. An optional store `namespace` may be passed in as the first argument.
 
 ```js
 import { mapTwoWayState } from 'spyfu-vuex-helpers';
 
 export default {
     computed: {
-        // optional: set a namespace as the first argument
         ...mapTwoWayState({
             isLoading: 'setIsLoading',
         }),
