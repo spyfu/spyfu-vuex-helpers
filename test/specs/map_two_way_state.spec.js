@@ -34,59 +34,63 @@ function CreateComponent(options = {}) {
 // tests
 //
 describe('mapTwoWayState', () => {
-    it('normal syntax', () => {
+    it('object syntax', () => {
         const vm = CreateComponent({
             computed: mapTwoWayState({
                 test: { key: 'one', mutation: 'setOne' },
             }),
         });
 
-        const commit = sinon.stub(vm.$store, 'commit');
-
         expect(vm.test).to.equal(1);
+
+        const commit = sinon.stub(vm.$store, 'commit');
         vm.test = 'foo';
+
         expect(commit.calledWith('setOne', 'foo')).to.be.true;
     });
 
-    it('normal syntax (namespaced)', () => {
+    it('object syntax (namespaced)', () => {
         const vm = CreateComponent({
             computed: mapTwoWayState('foo', {
                 test: { key: 'one', mutation: 'setOne' },
             }),
         });
 
-        const commit = sinon.stub(vm.$store, 'commit');
-
         expect(vm.test).to.equal(1);
+
+        const commit = sinon.stub(vm.$store, 'commit');
         vm.test = 'foo';
+
         expect(commit.calledWith('foo/setOne', 'foo')).to.be.true;
     });
 
-    it('shorthand', () => {
+    it('string synax', () => {
         const vm = CreateComponent({
             computed: mapTwoWayState({
                 one: 'setOne',
             }),
         });
 
-        const commit = sinon.stub(vm.$store, 'commit');
-
         expect(vm.one).to.equal(1);
+
+        const commit = sinon.stub(vm.$store, 'commit');
         vm.one = 'foo';
+
         expect(commit.calledWith('setOne', 'foo')).to.be.true;
     });
 
-    it('shorthand (namespaced)', () => {
+    it('string synax (namespaced)', () => {
         const vm = CreateComponent({
             computed: mapTwoWayState('foo', {
                 one: 'setOne',
             }),
         });
 
-        const commit = sinon.stub(vm.$store, 'commit');
-
         expect(vm.one).to.equal(1);
+
+        const commit = sinon.stub(vm.$store, 'commit');
         vm.one = 'foo';
+
         expect(commit.calledWith('foo/setOne', 'foo')).to.be.true;
     });
 });
