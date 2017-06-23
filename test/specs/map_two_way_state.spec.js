@@ -9,16 +9,24 @@ import Vuex from 'vuex';
 //
 function CreateComponent(options = {}) {
     const store = new Vuex.Store({
-        state: {
-            one: 1,
-        },
         modules: {
             foo: {
                 namespaced: true,
+                modules: {
+                    bar: {
+                        namespaced: true,
+                        state: {
+                            three: 3,
+                        },
+                    },
+                },
                 state: {
-                    one: 1,
+                    two: 2,
                 },
             },
+        },
+        state: {
+            one: 1,
         },
         strict: true,
     });
@@ -52,16 +60,31 @@ describe('mapTwoWayState', () => {
     it('object syntax (namespaced)', () => {
         const vm = CreateComponent({
             computed: mapTwoWayState('foo', {
-                test: { key: 'one', mutation: 'setOne' },
+                test: { key: 'two', mutation: 'setTwo' },
             }),
         });
 
-        expect(vm.test).to.equal(1);
+        expect(vm.test).to.equal(2);
 
         const commit = sinon.stub(vm.$store, 'commit');
-        vm.test = 'foo';
+        vm.test = 'new two';
 
-        expect(commit.calledWith('foo/setOne', 'foo')).to.be.true;
+        expect(commit.calledWith('foo/setTwo', 'new two')).to.be.true;
+    });
+
+    it('object syntax (nested namespace)', () => {
+        const vm = CreateComponent({
+            computed: mapTwoWayState('foo/bar', {
+                test: { key: 'three', mutation: 'setThree' },
+            }),
+        });
+
+        expect(vm.test).to.equal(3);
+
+        const commit = sinon.stub(vm.$store, 'commit');
+        vm.test = 'new three';
+
+        expect(commit.calledWith('foo/bar/setThree', 'new three')).to.be.true;
     });
 
     it('string synax', () => {
@@ -82,15 +105,31 @@ describe('mapTwoWayState', () => {
     it('string synax (namespaced)', () => {
         const vm = CreateComponent({
             computed: mapTwoWayState('foo', {
-                one: 'setOne',
+                two: 'setTwo',
             }),
         });
 
-        expect(vm.one).to.equal(1);
+        expect(vm.two).to.equal(2);
 
         const commit = sinon.stub(vm.$store, 'commit');
-        vm.one = 'foo';
+        vm.two = 'new two';
 
-        expect(commit.calledWith('foo/setOne', 'foo')).to.be.true;
+        expect(commit.calledWith('foo/setTwo', 'new two')).to.be.true;
+    });
+
+    it('string syntax (nested namespace)', () => {
+        /* eslint-disable */
+        const vm = CreateComponent({
+            computed: mapTwoWayState('foo/bar', {
+                three: 'setThree',
+            }),
+        });
+
+        expect(vm.three).to.equal(3);
+
+        const commit = sinon.stub(vm.$store, 'commit');
+        vm.three = 'new three';
+
+        expect(commit.calledWith('foo/bar/setThree', 'new three')).to.be.true;
     });
 });
