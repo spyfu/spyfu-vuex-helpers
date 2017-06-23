@@ -21,7 +21,7 @@ $ yarn add spyfu-vuex-helpers
 <a name="map-two-way-state"></a>
 ### mapTwoWayState
 
-Frequently, you'll need to both get and mutate Vuex state from a component. We can do this with a [two way computed property](https://vuejs.org/v2/guide/computed.html#Computed-Setter).
+Occasionally, you'll need to both get and mutate Vuex state from a component. Normally, you might use a [two way computed property](https://vuejs.org/v2/guide/computed.html#Computed-Setter).
 
 ```js
 export default {
@@ -38,7 +38,7 @@ export default {
 }
 ```
 
-To make this less verbose, use the `mapTwoWayState` helper. The `namespace` argument is optional.
+To avoid writing these redundant getters and setters, we can use the `mapTwoWayState` helper. The `namespace` argument is optional.
 
 ```js
 import { mapTwoWayState } from 'spyfu-vuex-helpers';
@@ -52,7 +52,7 @@ export default {
 }
 ```
 
-In the above example, your Vuex state will be exposed as `isLoading`. When you modify this, the `namespace/setIsLoading` mutation will be called. If you need to use a name different from your key in Vuex, use the following object syntax.
+In the above example, your Vuex state will be exposed as `isLoading`. When you updated, the `namespace/setIsLoading` mutation will be called. If you need to use a different key name from the one in Vuex, use the following object syntax.
 
 ```js
 thingIsLoading: { key: 'isLoading', mutation: 'setIsLoading' }
