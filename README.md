@@ -28,10 +28,10 @@ export default {
     computed: {
         isLoading: {
             get() {
-                return this.$store.state.namespace.isLoading;
+                return this.$store.state.isLoading;
             },
             set(value) {
-                this.$store.commit('namespace/setIsLoading', value);
+                this.$store.commit('setIsLoading', value);
             },
         },
     },
@@ -45,14 +45,15 @@ import { mapTwoWayState } from 'spyfu-vuex-helpers';
 
 export default {
     computed: {
-        ...mapTwoWayState('namespace', {
+        // optional: set a namespace as the first argument
+        ...mapTwoWayState({
             isLoading: 'setIsLoading',
         }),
     },
 }
 ```
 
-In the above example, your Vuex state will be exposed as `isLoading`. When you updated, the `namespace/setIsLoading` mutation will be called. If you need to use a different key name from the one in Vuex, use the following object syntax.
+In the above example, your Vuex state will be exposed as `isLoading`. When updated, the `setIsLoading` mutation will be called. If you need to use a different key name from the one in Vuex, use the following object syntax.
 
 ```js
 thingIsLoading: { key: 'isLoading', mutation: 'setIsLoading' }
