@@ -1,8 +1,35 @@
-const path = require('path');
+import babel from 'rollup-plugin-babel';
+import babelrc from 'babelrc-rollup';
+import istanbul from 'rollup-plugin-istanbul';
 
+let pkg = require('./package.json');
+let external = Object.keys(pkg.dependencies);
+
+let plugins = [
+    babel(babelrc()),
+];
+
+if (process.env.BUILD !== 'production') {
+    plugins.push(istanbul({
+        exclude: ['test/**/*', 'node_modules/**/*'],
+    }));
+}
 
 export default {
-    dest: path.resolve(__dirname, 'dist/bundle.js'),
-    entry: path.resolve(__dirname, 'src/main.js'),
-    format: 'cjs',
+    entry: 'lib/index.js',
+    plugins: plugins,
+    external: external,
+    targets: [
+        {
+            dest: pkg.main,
+            format: 'umd',
+            moduleName: 'vuexHelpers',
+            sourceMap: true,
+        },
+        {
+            dest: pkg.module,
+            format: 'es',
+            sourceMap: true,
+        },
+    ],
 };
