@@ -1,10 +1,10 @@
 {
-  "name": "vuex-helpers",
+  "name": "spyfu-vuex-helpers",
   "version": "0.1.0",
   "description": "Utility functions for Vuex.",
-  "main": "dist/vuex-helpers.js",
-  "module": "dist/vuex-helpers.mjs",
-  "jsnext:main": "dist/vuex-helpers.mjs",
+  "main": "dist/spyfu-vuex-helpers.js",
+  "module": "dist/spyfu-vuex-helpers.mjs",
+  "jsnext:main": "dist/spyfu-vuex-helpers.mjs",
   "scripts": {
     "prebuild": "eslint lib test",
     "build": "rollup -c --environment NODE_ENV:production",
@@ -13,20 +13,20 @@
     "test": "mocha",
     "prepublish": "npm test"
   },
-  "repository": "spyfu/vuex-helpers",
+  "repository": "spyfu/spyfu-vuex-helpers",
   "keywords": [
     "vuex"
   ],
   "author": "SpyFu",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/spyfu/vuex-helpers/issues"
+    "url": "https://github.com/spyfu/spyfu-vuex-helpers/issues"
   },
   "files": [
     "lib",
     "dist"
   ],
-  "homepage": "https://github.com/spyfu/vuex-helpers",
+  "homepage": "https://github.com/spyfu/spyfu-vuex-helpers",
   "dependencies": {},
   "devDependencies": {
     "babel-eslint": "^7.1.1",

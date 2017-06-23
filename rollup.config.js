@@ -26,7 +26,7 @@ export default {
         {
             dest: pkg.main,
             format: 'umd',
-            moduleName: 'vuexHelpers',
+            moduleName: 'spyfuVuexHelpers',
             sourceMap: true,
         },
         {

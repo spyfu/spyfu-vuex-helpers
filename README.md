@@ -1,9 +1,9 @@
-# vuex-helpers
+# spyfu-vuex-helpers
 
-[![Build status](https://img.shields.io/circleci/project/github/spyfu/vuex-helpers.svg)](https://circleci.com/gh/spyfu/vuex-helpers)
-[![Coverage](https://img.shields.io/codecov/c/token/ZnYz3FuhI5/github/spyfu/vuex-helpers.svg)](https://codecov.io/gh/spyfu/vuex-helpers)
-[![npm](https://img.shields.io/npm/v/vuex-helpers.svg)](https://www.npmjs.com/package/vuex-helpers)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/spyfu/vuex-helpers/blob/master/LICENSE)
+[![Build status](https://img.shields.io/circleci/project/github/spyfu/spyfu-vuex-helpers.svg)](https://circleci.com/gh/spyfu/spyfu-vuex-helpers)
+[![Coverage](https://img.shields.io/codecov/c/token/ZnYz3FuhI5/github/spyfu/spyfu-vuex-helpers.svg)](https://codecov.io/gh/spyfu/spyfu-vuex-helpers)
+[![npm](https://img.shields.io/npm/v/spyfu-vuex-helpers.svg)](https://www.npmjs.com/package/spyfu-vuex-helpers)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/spyfu/spyfu-vuex-helpers/blob/master/LICENSE)
 
 <a name="map-two-way-state"></a>
 ### mapTwoWayState
@@ -28,7 +28,7 @@ export default {
 To make this less verbose, use the `mapTwoWayState` helper. The `namespace` argument is optional.
 
 ```js
-import { mapTwoWayState } from 'vuex-helpers';
+import { mapTwoWayState } from 'spyfu-vuex-helpers';
 
 export default {
     computed: {
