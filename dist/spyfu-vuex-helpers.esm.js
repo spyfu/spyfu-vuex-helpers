@@ -1,9 +1,3 @@
-(function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
-    typeof define === 'function' && define.amd ? define(factory) :
-    (factory());
-}(this, (function () { 'use strict';
-
 /**
  * Map vuex state with two way computed properties
  *
@@ -91,6 +85,4 @@ function createSetter(namespace, mappings) {
 module.exports = {
     mapTwoWayState: mapTwoWayState
 };
-
-})));
-//# sourceMappingURL=spyfu-vuex-helpers.js.map
+//# sourceMappingURL=spyfu-vuex-helpers.esm.js.map

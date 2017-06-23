@@ -3,8 +3,8 @@
   "version": "0.1.1",
   "description": "Utility functions for Vuex.",
   "main": "dist/spyfu-vuex-helpers.js",
-  "module": "dist/spyfu-vuex-helpers.mjs",
-  "jsnext:main": "dist/spyfu-vuex-helpers.mjs",
+  "module": "dist/spyfu-vuex-helpers.esm.js",
+  "jsnext:main": "dist/spyfu-vuex-helpers.esm.js",
   "scripts": {
     "prebuild": "eslint lib test",
     "build": "rollup -c --environment NODE_ENV:production",
@@ -42,7 +42,6 @@
     "rollup": "^0.37.0",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-istanbul": "^1.1.0",
-    "rollup-plugin-uglify": "^2.0.1",
     "rollup-watch": "^2.5.0",
     "sinon": "^2.3.5",
     "vue": "^2.3.4",
