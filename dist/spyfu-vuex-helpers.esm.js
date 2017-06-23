@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 /**
  * Map vuex state with two way computed properties
  *
@@ -43,19 +41,20 @@ function parseArguments(args) {
 
 // determine our key and mutation values
 function parseMappings(obj) {
-    var map = {};
+    var mapping = {};
 
     Object.keys(obj).forEach(function (key) {
         var value = obj[key];
+        var vmKey = key.slice(key.lastIndexOf('.') + 1);
 
         if (typeof value === 'string') {
-            map[key] = { key: key, mutation: value };
+            mapping[vmKey] = { key: key, mutation: value };
         } else {
-            map[key] = { key: value.key, mutation: value.mutation };
+            mapping[vmKey] = { key: value.key, mutation: value.mutation };
         }
     });
 
-    return map;
+    return mapping;
 }
 
 // resolve an object path from a string
@@ -69,12 +68,14 @@ function resolveObject(obj, path, delimeter) {
 function createGetter(namespace, mapping) {
     if (namespace) {
         return function () {
-            return resolveObject(this.$store.state, namespace, '/')[mapping.key];
+            var state = resolveObject(this.$store.state, namespace, '/');
+
+            return resolveObject(state, mapping.key, '.');
         };
     }
 
     return function () {
-        return this.$store.state[mapping.key];
+        return resolveObject(this.$store.state, mapping.key, '.');
     };
 }
 
