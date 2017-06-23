@@ -2,6 +2,7 @@
 
 [![Build status](https://img.shields.io/circleci/project/github/spyfu/vuex-helpers.svg)](https://circleci.com/gh/spyfu/vuex-helpers)
 [![Coverage](https://img.shields.io/codecov/c/token/ZnYz3FuhI5/github/spyfu/vuex-helpers.svg)](https://codecov.io/gh/spyfu/vuex-helpers)
+[![npm](https://img.shields.io/npm/v/vuex-helpers.svg)](https://www.npmjs.com/package/vuex-helpers)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/spyfu/vuex-helpers/blob/master/LICENSE)
 
 <a name="map-two-way-state"></a>
