@@ -9,7 +9,6 @@
     "prebuild": "eslint lib test",
     "build": "rollup -c --environment NODE_ENV:production",
     "watch": "rollup -c -w",
-    "pretest": "rollup -c",
     "test": "mocha",
     "prepublish": "npm test"
   },
