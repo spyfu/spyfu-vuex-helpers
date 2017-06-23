@@ -57,3 +57,9 @@ In the above example, your Vuex state will be exposed as `isLoading`. When updat
 ```js
 thingIsLoading: { key: 'isLoading', mutation: 'setIsLoading' }
 ```
+
+### License
+
+[MIT](https://github.com/spyfu/spyfu-vuex-helpers/blob/master/LICENSE)
+
+Copyright (c) 2017-present, [SpyFu](https://spyfu.com)
