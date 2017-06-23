@@ -5,6 +5,19 @@
 [![npm](https://img.shields.io/npm/v/spyfu-vuex-helpers.svg)](https://www.npmjs.com/package/spyfu-vuex-helpers)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/spyfu/spyfu-vuex-helpers/blob/master/LICENSE)
 
+<a name="introduction"></a>
+### Introduction
+
+This utility makes two way computed properties, so your components can more easily interface with Vuex.
+
+```bash
+# install through npm
+$ npm install spyfu-vuex-helpers
+
+# or with yarn
+$ yarn add spyfu-vuex-helpers
+```
+
 <a name="map-two-way-state"></a>
 ### mapTwoWayState
 
@@ -39,7 +52,7 @@ export default {
 }
 ```
 
-In the above example, your Vuex state will be exposed as `isLoading`. When you modify this, the `namespace/setIsLoading` mutation will be called. If you need to use a name that does not match your key in Vuex, use the object syntax.
+In the above example, your Vuex state will be exposed as `isLoading`. When you modify this, the `namespace/setIsLoading` mutation will be called. If you need to use a name different from your key in Vuex, use the following object syntax.
 
 ```js
 thingIsLoading: { key: 'isLoading', mutation: 'setIsLoading' }
