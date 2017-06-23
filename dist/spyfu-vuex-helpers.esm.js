@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 /**
  * Map vuex state with two way computed properties
  *
@@ -56,11 +58,18 @@ function parseMappings(obj) {
     return map;
 }
 
+// resolve an object path from a string
+function resolveObject(obj, path, delimeter) {
+    return path.split(delimeter).reduce(function (p, item) {
+        return p && p[item];
+    }, obj);
+}
+
 // create a getter for computed properties
 function createGetter(namespace, mapping) {
     if (namespace) {
         return function () {
-            return this.$store.state[namespace][mapping.key];
+            return resolveObject(this.$store.state, namespace, '/')[mapping.key];
         };
     }
 
