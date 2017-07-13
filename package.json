@@ -10,7 +10,7 @@
     "build": "rollup -c --environment NODE_ENV:production",
     "watch": "rollup -c -w",
     "pretest": "rollup -c",
-    "test": "nyc mocha",
+    "test": "mocha",
     "prepublish": "npm test"
   },
   "repository": "spyfu/spyfu-vuex-helpers",
