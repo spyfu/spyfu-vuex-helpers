@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { mapTwoWayState } from '../../';
+import { mapTwoWayState } from '../../lib';
 import sinon from 'sinon';
 import Vue from 'vue';
 import Vuex from 'vuex';
