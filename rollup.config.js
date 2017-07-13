@@ -9,28 +9,25 @@ let plugins = [
     babel(babelrc()),
 ];
 
-let targets = [
-    {
-        dest: pkg.main,
-        format: 'umd',
-        moduleName: 'spyfuVuexHelpers',
-        sourceMap: true,
-    },
-    {
-        dest: pkg.module,
-        format: 'es',
-        sourceMap: true,
-    },
-]
-
 if (process.env.NODE_ENV !== 'production') {
     plugins.push(istanbul({ exclude: ['test/**/*', 'node_modules/**/*'] }));
-    targets = [];
 }
 
 export default {
     entry: 'lib/index.js',
     plugins: plugins,
     external: external,
-    targets: targets,
+    targets: [
+        {
+            dest: pkg.main,
+            format: 'umd',
+            moduleName: 'spyfuVuexHelpers',
+            sourceMap: true,
+        },
+        {
+            dest: pkg.module,
+            format: 'es',
+            sourceMap: true,
+        },
+    ],
 };
