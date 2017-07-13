@@ -4,20 +4,16 @@ import istanbul from 'rollup-plugin-istanbul';
 
 let pkg = require('./package.json');
 let external = Object.keys(pkg.dependencies);
+let isProduction = process.env.NODE_ENV === 'production';
 
-let plugins = [
-    babel(babelrc()),
-];
+let targets = [];
+let plugins = [babel(babelrc())];
 
-if (process.env.NODE_ENV !== 'production') {
-    plugins.push(istanbul({ exclude: ['test/**/*', 'node_modules/**/*'] }));
-}
-
-export default {
-    entry: 'lib/index.js',
-    plugins: plugins,
-    external: external,
-    targets: [
+//
+// production config
+//
+if (isProduction) {
+    targets.push(
         {
             dest: pkg.main,
             format: 'umd',
@@ -28,6 +24,25 @@ export default {
             dest: pkg.module,
             format: 'es',
             sourceMap: true,
-        },
-    ],
+        }
+    )
+}
+
+//
+// non-production config
+//
+else {
+    plugins.push(istanbul({
+        exclude: [
+            'test/**/*',
+            'node_modules/**/*',
+        ] ,
+    }));
+}
+
+export default {
+    entry: 'lib/index.js',
+    plugins: plugins,
+    external: external,
+    targets: targets,
 };
