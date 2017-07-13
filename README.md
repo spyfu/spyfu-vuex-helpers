@@ -24,8 +24,9 @@ $ yarn add spyfu-vuex-helpers
 Often, you'll need to keep multiple copies of the same piece of state. One way to do this is for your state to be nothing more than an array of objects. The `findInstanceThen` helper can be used to map your mutations to a particular instance.
 
 ```js
-export default {
+import { findInstanceThen } from 'spyfu-vuex-helpers';
 
+export default {
     // state should contain an array called "instances"
     // with each instance defining an "id" property.
     state: {
