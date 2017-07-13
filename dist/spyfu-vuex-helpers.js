@@ -5,6 +5,24 @@
 }(this, (function () { 'use strict';
 
 /**
+ * Find a state instance, and execute a callback if found.
+ *
+ * @param  {Function} callback
+ * @return {Function}
+ */
+var findInstanceThen = function (callback) {
+    return function (state, payload) {
+        var instance = state.instances.find(function (obj) {
+            return obj.id === payload.id;
+        });
+
+        if (instance) {
+            callback(instance, payload, state);
+        }
+    };
+};
+
+/**
  * Map vuex state with two way computed properties
  *
  * @param  {string|Object}  required the module namespace, or state mappings
@@ -99,6 +117,7 @@ function createSetter(namespace, mappings) {
 }
 
 module.exports = {
+    findInstanceThen: findInstanceThen,
     mapTwoWayState: mapTwoWayState
 };
 
