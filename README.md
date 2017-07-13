@@ -9,7 +9,7 @@
 <a name="introduction"></a>
 ### Introduction
 
-This utility makes two way computed properties, so your components can more easily interface with Vuex.
+These utility functions are intended for use with [Vuex](https://vuex.vuejs.org/en). 
 
 ```bash
 # install through npm
