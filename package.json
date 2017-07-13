@@ -1,6 +1,6 @@
 {
   "name": "spyfu-vuex-helpers",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Utility functions for Vuex.",
   "main": "dist/spyfu-vuex-helpers.js",
   "module": "dist/spyfu-vuex-helpers.esm.js",
