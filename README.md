@@ -62,7 +62,7 @@ thingIsLoading: { key: 'isLoading', mutation: 'setIsLoading' }
 <a name="find-instance-then"></a>
 ### findInstanceThen
 
-Often, you'll need to keep multiple copies of the same piece of state. One way to do this is for your state to be nothing more than an array of objects. The `findInstanceThen` helper can be used to map your mutations to a particular instance.
+This function helps with keeping multiple copies of the same state. One way to do this is for your state to be nothing more than an array of objects. The `findInstanceThen` helper can then be used to map your mutations to a particular instance.
 
 ```js
 import { findInstanceThen } from 'spyfu-vuex-helpers';
