@@ -84,6 +84,17 @@ export default {
 }
 ```
 
+If you need to use a state key other than `instances`, or an instance key other than `id`, use the `config` method.
+
+```js
+import helpers from 'spyfu-vuex-helpers';
+
+const findInstanceThen = helpers.findInstanceThen.config({
+    stateKey: 'foo', 
+    instanceKey: 'bar',
+});
+```
+
 ### License
 
 [MIT](https://github.com/spyfu/spyfu-vuex-helpers/blob/master/LICENSE)
