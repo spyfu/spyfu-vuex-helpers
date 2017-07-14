@@ -3,6 +3,12 @@ import { findInstanceThen } from '../../lib';
 import sinon from 'sinon';
 import Vuex from 'vuex';
 
+// customized version of the helper
+const configuredFindInstanceThen = findInstanceThen.config({
+    stateKey: 'foo',
+    instanceKey: 'bar',
+});
+
 //
 // factory
 //
@@ -12,11 +18,20 @@ function CreateStore(state = {}) {
             create(state, id) {
                 state.instances.push({ id, value: null });
             },
+            createFoo(state, bar) {
+                state.foo.push({ bar, value: null });
+            },
             update: findInstanceThen((instance, payload) => {
                 instance.value = payload.value;
             }),
             stateTest: findInstanceThen((instance, payload, state) => {
                 instance.value = state.stateTestValue;
+            }),
+            configTest: findInstanceThen({ stateKey: 'foo', instanceKey: 'bar' }, (instance, payload) =>{
+                instance.value = payload.value;
+            }),
+            configTest2: configuredFindInstanceThen((instance, payload) => {
+                instance.value = payload.value;
             }),
         },
         state,
@@ -86,5 +101,23 @@ describe('findInstanceThen', () => {
         store.commit('update', { value: 'foo' });
 
         expect(error.called).to.be.true;
+    });
+
+    it('accepts a config object as the first argument', () => {
+        const store = CreateStore({ foo: [] });
+
+        store.commit('createFoo', 'test');
+        store.commit('configTest', { bar: 'test', value: 'aloha' });
+
+        expect(store.state.foo[0].value).to.equal('aloha');
+    });
+
+    it('exposes a helper to partially apply configuration', () => {
+        const store = CreateStore({ foo: [] });
+
+        store.commit('createFoo', 'test');
+        store.commit('configTest2', { bar: 'test', value: 'hello' });
+
+        expect(store.state.foo[0].value).to.equal('hello');
     });
 });
