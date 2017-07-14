@@ -13,33 +13,65 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 /**
  * Find a state instance, and execute a callback if found.
  *
- * @param  {Function} callback
+ * @param  {Object|Function}    required    the config object, or mutation callback
+ * @param  {Function}           optional    mutation callback
  * @return {Function}
  */
-var findInstanceThen = function (callback) {
+var findInstanceThen = function findInstanceThen() {
+    // this function supports two argument signatures. if the
+    // first argument is an object, we will use that as the
+    // config, and the second arg as the mutation handler
+    var _parseArguments = parseArguments(arguments),
+        config = _parseArguments.config,
+        callback = _parseArguments.callback;
+
     return function (state, payload) {
+        if (stateAndPayloadAreValid(config, state, payload)) {
 
-        // ensure that the instances array exists
-        if (!Array.isArray(state.instances)) {
-            console.error('State does not contain an "instances" array.');
-            return;
-        }
+            // find our instance based on the current configuration
+            var instance = state[config.stateKey].find(function (obj) {
+                return obj[config.instanceKey] === payload[config.instanceKey];
+            });
 
-        // ensure that the payload contains an id
-        if ((typeof payload === 'undefined' ? 'undefined' : _typeof(payload)) !== 'object' || typeof payload.id === 'undefined') {
-            console.error('Mutation payloads must be an object with an "id" property.');
-            return;
-        }
-
-        var instance = state.instances.find(function (obj) {
-            return obj.id === payload.id;
-        });
-
-        if (instance) {
-            callback(instance, payload, state);
+            // if the instance was found, execute our mutation callback
+            if (instance) {
+                callback(instance, payload, state);
+            }
         }
     };
 };
+
+findInstanceThen.config = function (options) {
+    return findInstanceThen.bind(null, options);
+};
+
+// helper to get config and callback from the arguments
+function parseArguments(args) {
+    var defaultConfig = {
+        stateKey: 'instances',
+        instanceKey: 'id'
+    };
+
+    return typeof args[0] === 'function' ? { config: defaultConfig, callback: args[0] } : { config: args[0], callback: args[1] };
+}
+
+// check if the state or payload is malformed
+function stateAndPayloadAreValid(config, state, payload) {
+
+    // ensure that the instances array exists
+    if (!Array.isArray(state[config.stateKey])) {
+        console.error('State does not contain an "' + config.stateKey + '" array.');
+        return false;
+    }
+
+    // ensure that the payload contains an id
+    if ((typeof payload === 'undefined' ? 'undefined' : _typeof(payload)) !== 'object' || typeof payload[config.instanceKey] === 'undefined') {
+        console.error('Mutation payloads must be an object with an "' + config.instanceKey + '" property.');
+        return false;
+    }
+
+    return true;
+}
 
 /**
  * Map vuex state with two way computed properties
@@ -52,7 +84,7 @@ var mapTwoWayState = function () {
     // this function supports two argument signatures. if the
     // first argument is a string, we will use that as the
     // namespace, and the next arg as the state mapping
-    var _parseArguments = parseArguments(arguments),
+    var _parseArguments = parseArguments$1(arguments),
         namespace = _parseArguments.namespace,
         mappings = _parseArguments.mappings;
 
@@ -75,7 +107,7 @@ var mapTwoWayState = function () {
 };
 
 // determine the values of our namespace and mappings
-function parseArguments(args) {
+function parseArguments$1(args) {
     var first = args[0];
     var second = args[1];
 
