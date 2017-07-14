@@ -35,7 +35,7 @@ function CreateStore(state = {}) {
             }),
         },
         state,
-    })
+    });
 }
 
 //
@@ -70,7 +70,6 @@ describe('findInstanceThen', () => {
         expect(store.state.instances[0].value).to.equal('hello');
     });
 
-
     it('does nothing if the instance was not found', () => {
         const store = CreateStore({ instances: [] });
 
@@ -79,6 +78,7 @@ describe('findInstanceThen', () => {
         expect(() => store.commit('update', { id: 'foo', value: 'bar' })).not.to.throw;
         expect(store.state.instances[0].value).to.be.null
     });
+
     it('errors when the state does not contain an instances array', () => {
         const store = CreateStore();
 
