@@ -1,8 +1,14 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
-    typeof define === 'function' && define.amd ? define(factory) :
-    (factory());
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (factory());
 }(this, (function () { 'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+  return typeof obj;
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+};
 
 /**
  * Find a state instance, and execute a callback if found.
@@ -12,6 +18,19 @@
  */
 var findInstanceThen = function (callback) {
     return function (state, payload) {
+
+        // ensure that the instances array exists
+        if (!Array.isArray(state.instances)) {
+            console.error('State does not contain an "instances" array.');
+            return;
+        }
+
+        // ensure that the payload contains an id
+        if ((typeof payload === 'undefined' ? 'undefined' : _typeof(payload)) !== 'object' || typeof payload.id === 'undefined') {
+            console.error('Mutation payloads must be an object with an "id" property.');
+            return;
+        }
+
         var instance = state.instances.find(function (obj) {
             return obj.id === payload.id;
         });
