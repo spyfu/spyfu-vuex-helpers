@@ -19,31 +19,6 @@ $ npm install spyfu-vuex-helpers
 $ yarn add spyfu-vuex-helpers
 ```
 
-<a name="find-instance-then"></a>
-### findInstanceThen
-
-Often, you'll need to keep multiple copies of the same piece of state. One way to do this is for your state to be nothing more than an array of objects. The `findInstanceThen` helper can be used to map your mutations to a particular instance.
-
-```js
-import { findInstanceThen } from 'spyfu-vuex-helpers';
-
-export default {
-    // state should contain an array called "instances"
-    // with each instance defining an "id" property.
-    state: {
-        instances: [],
-    },
-    
-    // to mutate particular instances, use the findInstanceThen
-    // function and attach an "id" property to your payload.
-    mutations: {
-        someMutation: findInstanceThen((instance, payload) => {
-            instance.foo = payload.value;
-        }),
-    },
-}
-```
-
 <a name="map-two-way-state"></a>
 ### mapTwoWayState
 
@@ -82,6 +57,31 @@ In the above example, your Vuex state will be exposed as `isLoading`. When updat
 
 ```js
 thingIsLoading: { key: 'isLoading', mutation: 'setIsLoading' }
+```
+
+<a name="find-instance-then"></a>
+### findInstanceThen
+
+Often, you'll need to keep multiple copies of the same piece of state. One way to do this is for your state to be nothing more than an array of objects. The `findInstanceThen` helper can be used to map your mutations to a particular instance.
+
+```js
+import { findInstanceThen } from 'spyfu-vuex-helpers';
+
+export default {
+    // state should contain an array called "instances"
+    // with each instance defining an "id" property.
+    state: {
+        instances: [],
+    },
+    
+    // to mutate particular instances, use the findInstanceThen
+    // function and attach an "id" property to your payload.
+    mutations: {
+        someMutation: findInstanceThen((instance, payload) => {
+            instance.foo = payload.value;
+        }),
+    },
+}
 ```
 
 ### License
