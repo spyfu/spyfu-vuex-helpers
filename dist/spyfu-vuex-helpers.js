@@ -41,8 +41,9 @@ var findInstanceThen = function findInstanceThen() {
     };
 };
 
-findInstanceThen.config = function (options) {
-    return findInstanceThen.bind(null, options);
+// this method allows us to easily apply configuration to the helper
+findInstanceThen.config = function (opts) {
+    return findInstanceThen.bind(null, opts);
 };
 
 // helper to get config and callback from the arguments
@@ -52,7 +53,17 @@ function parseArguments(args) {
         instanceKey: 'id'
     };
 
-    return typeof args[0] === 'function' ? { config: defaultConfig, callback: args[0] } : { config: args[0], callback: args[1] };
+    if (typeof args[0] === 'function') {
+        return {
+            callback: args[0],
+            config: defaultConfig
+        };
+    } else {
+        return {
+            callback: args[1],
+            config: Object.assign({}, defaultConfig, args[0])
+        };
+    }
 }
 
 // check if the state or payload is malformed
