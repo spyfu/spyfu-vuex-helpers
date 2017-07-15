@@ -21,6 +21,9 @@ function CreateStore(state = {}) {
             createFoo(state, bar) {
                 state.foo.push({ bar, value: null });
             },
+            createFooWithId(state, id) {
+                state.foo.push({ id, value: null });
+            },
             update: findInstanceThen((instance, payload) => {
                 instance.value = payload.value;
             }),
@@ -31,6 +34,9 @@ function CreateStore(state = {}) {
                 instance.value = payload.value;
             }),
             configTest2: configuredFindInstanceThen((instance, payload) => {
+                instance.value = payload.value;
+            }),
+            configTest3: findInstanceThen({ stateKey: 'foo' }, (instance, payload) => {
                 instance.value = payload.value;
             }),
         },
@@ -117,6 +123,16 @@ describe('findInstanceThen', () => {
 
         store.commit('createFoo', 'test');
         store.commit('configTest2', { bar: 'test', value: 'hello' });
+
+        expect(store.state.foo[0].value).to.equal('hello');
+    });
+
+    // https://github.com/spyfu/spyfu-vuex-helpers/issues/3
+    it('merges custom config with default values', () => {
+        const store = CreateStore({ foo: [] });
+
+        store.commit('createFooWithId', 'test');
+        store.commit('configTest3', { id: 'test', value: 'hello' });
 
         expect(store.state.foo[0].value).to.equal('hello');
     });
