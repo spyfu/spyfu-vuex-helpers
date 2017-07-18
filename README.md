@@ -77,7 +77,7 @@ export default {
     // to mutate particular instances, use the findInstanceThen
     // function and attach an "id" property to your payload.
     mutations: {
-        someMutation: findInstanceThen((instance, payload) => {
+        someMutation: findInstanceThen((instance, payload, state) => {
             instance.foo = payload.value;
         }),
     },
