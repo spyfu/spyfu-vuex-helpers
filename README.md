@@ -9,7 +9,7 @@
 <a name="introduction"></a>
 ### Introduction
 
-These utility functions are intended for use with [Vuex](https://vuex.vuejs.org/en). 
+These utility functions are intended for use with [Vuex](https://vuex.vuejs.org/en).
 
 ```bash
 # install through npm
@@ -73,7 +73,7 @@ export default {
     state: {
         instances: [],
     },
-    
+
     // to mutate particular instances, use the findInstanceThen
     // function and attach an "id" property to your payload.
     mutations: {
@@ -90,10 +90,23 @@ If you need to use a state key other than `instances`, or an instance key other 
 import helpers from 'spyfu-vuex-helpers';
 
 const findInstanceThen = helpers.findInstanceThen.config({
-    stateKey: 'foo', 
+    stateKey: 'foo',
     instanceKey: 'bar',
 });
 ```
+
+<a name="resolve-object-path"></a>
+### resolveObjectPath
+
+This utility resolves the value of a nested object from a string path. It is typically used to access the state of nested modules.
+
+```js
+import { resolveObjectPath } from 'spyfu-vuex-helpers';
+
+const value = resolveObjectPath(state, 'some/nested/module/stateKey');
+```
+
+Optionally, a third argument can be provided to use a delimeter other than the default of `/`.
 
 ### License
 
