@@ -79,6 +79,22 @@ function stateAndPayloadAreValid(config, state, payload) {
 }
 
 /**
+ * Helper function for resolving nested object values.
+ *
+ * @param  {Object}         obj         source object
+ * @param  {String}         path        path to nested value
+ * @param  {String|RegExp}  delimeter   characters / pattern to split path on
+ * @return {mixed}
+ */
+var resolveObjectPath = function (obj, path) {
+  var delimeter = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '.';
+
+  return path.split(delimeter).reduce(function (p, item) {
+    return p && p[item];
+  }, obj);
+};
+
+/**
  * Map vuex state with two way computed properties
  *
  * @param  {string|Object}  required the module namespace, or state mappings
@@ -137,25 +153,18 @@ function parseMappings(obj) {
     return mapping;
 }
 
-// resolve an object path from a string
-function resolveObject(obj, path, delimeter) {
-    return path.split(delimeter).reduce(function (p, item) {
-        return p && p[item];
-    }, obj);
-}
-
 // create a getter for computed properties
 function createGetter(namespace, mapping) {
     if (namespace) {
         return function () {
-            var state = resolveObject(this.$store.state, namespace, '/');
+            var state = resolveObjectPath(this.$store.state, namespace, '/');
 
-            return resolveObject(state, mapping.key, '.');
+            return resolveObjectPath(state, mapping.key, '.');
         };
     }
 
     return function () {
-        return resolveObject(this.$store.state, mapping.key, '.');
+        return resolveObjectPath(this.$store.state, mapping.key, '.');
     };
 }
 
@@ -174,6 +183,7 @@ function createSetter(namespace, mappings) {
 
 module.exports = {
     findInstanceThen: findInstanceThen,
-    mapTwoWayState: mapTwoWayState
+    mapTwoWayState: mapTwoWayState,
+    resolveObjectPath: resolveObjectPath
 };
 //# sourceMappingURL=spyfu-vuex-helpers.esm.js.map
