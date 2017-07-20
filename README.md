@@ -103,10 +103,10 @@ This utility resolves the value of a nested object from a string path. It is typ
 ```js
 import { resolveObjectPath } from 'spyfu-vuex-helpers';
 
-const value = resolveObjectPath(state, 'some/nested/module/stateKey');
+const value = resolveObjectPath(state, 'some.nested.module.stateKey');
 ```
 
-Optionally, a third argument can be provided to use a delimeter other than the default of `/`.
+Optionally, a third argument can be provided to use a delimeter other than the default of `.`.
 
 ### License
 
