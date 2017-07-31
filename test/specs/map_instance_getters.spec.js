@@ -1,6 +1,5 @@
 import { expect } from 'chai';
-import { mapInstanceGetters, mapTwoWayState } from '../../lib';
-import sinon from 'sinon';
+import { mapInstanceGetters } from '../../lib';
 import Vue from 'vue';
 import Vuex from 'vuex';
 
@@ -18,7 +17,7 @@ function CreateComponent(options = {}) {
                 getters: {
                     instance: (state) => (id) => state.instances[id],
                     shouldFail: (state) => state.child.five,
-                    baz: (state) => (id) => state.three,
+                    baz: (state) => () => state.three,
                 }
             },
         },
@@ -56,7 +55,7 @@ describe('mapInstanceGetters', () => {
 
     it('should fail if getter doesn\'t return a function', () => {
         expect(() => {
-            const vm = CreateComponent({
+            CreateComponent({
                 data() {
                     return { id: 2 };
                 },

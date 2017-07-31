@@ -272,9 +272,15 @@ var getEntries = function (obj) {
 var compose = function () {
     var fns = arguments;
 
-    return function (result) {
+    return function () {
+        var result = void 0;
+
         for (var i = fns.length - 1; i > -1; i--) {
-            result = fns[i].call(this, result);
+            if (i === fns.length - 1) {
+                result = fns[i].apply(fns[i], arguments);
+            } else {
+                result = fns[i].call(this, result);
+            }
         }
 
         return result;
@@ -282,16 +288,14 @@ var compose = function () {
 };
 
 // Convert KeyValuePair[] to Object
-var toObject = function (keyValuePairs) {
-    return keyValuePairs.reduce(function (obj, keyValuePair) {
-        var _keyValuePair = slicedToArray(keyValuePair, 2),
-            key = _keyValuePair[0],
-            value = _keyValuePair[1];
+var toObject = function (obj, keyValuePair) {
+    var _keyValuePair = slicedToArray(keyValuePair, 2),
+        key = _keyValuePair[0],
+        value = _keyValuePair[1];
 
-        obj[key] = value;
+    obj[key] = value;
 
-        return obj;
-    }, {});
+    return obj;
 };
 
 // Create a wrapper function which invokes the original function
@@ -302,14 +306,18 @@ var wrapGetterFn = function wrapGetterFn(_ref) {
         originalFn = _ref2[1];
 
     var newFn = function newFn() {
-        return originalFn(this.id);
+        var innerFn = originalFn.apply(this, arguments);
+
+        if (typeof innerFn !== 'function') throw 'The getter ' + key + ' does not return a function. Try using the \'mapGetter\' helper instead';
+
+        return innerFn(this.id);
     };
 
     return [key, newFn];
 };
 
 function invokeGettersWithId(getters) {
-    return getEntries(getters).map(wrapGetterFn).reduce(toObject);
+    return getEntries(getters).map(wrapGetterFn).reduce(toObject, {});
 }
 
 var mapInstanceGetters = compose(invokeGettersWithId, mapGetters);
