@@ -1,7 +1,7 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('vuex')) :
   typeof define === 'function' && define.amd ? define(['vuex'], factory) :
-  (factory(global.vuex));
+  (factory(global.Vuex));
 }(this, (function (vuex) { 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {

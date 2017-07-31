@@ -42,6 +42,9 @@ else {
 
 export default {
     entry: 'lib/index.js',
+    globals: {
+        vuex: 'Vuex'
+    },
     plugins: plugins,
     external: external,
     targets: targets,
