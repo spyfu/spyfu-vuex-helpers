@@ -1,14 +1,92 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (factory());
-}(this, (function () { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('vuex')) :
+  typeof define === 'function' && define.amd ? define(['vuex'], factory) :
+  (factory(global.vuex));
+}(this, (function (vuex) { 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
 } : function (obj) {
   return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var slicedToArray = function () {
+  function sliceIterator(arr, i) {
+    var _arr = [];
+    var _n = true;
+    var _d = false;
+    var _e = undefined;
+
+    try {
+      for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+        _arr.push(_s.value);
+
+        if (i && _arr.length === i) break;
+      }
+    } catch (err) {
+      _d = true;
+      _e = err;
+    } finally {
+      try {
+        if (!_n && _i["return"]) _i["return"]();
+      } finally {
+        if (_d) throw _e;
+      }
+    }
+
+    return _arr;
+  }
+
+  return function (arr, i) {
+    if (Array.isArray(arr)) {
+      return arr;
+    } else if (Symbol.iterator in Object(arr)) {
+      return sliceIterator(arr, i);
+    } else {
+      throw new TypeError("Invalid attempt to destructure non-iterable instance");
+    }
+  };
+}();
 
 /**
  * Find a state instance, and execute a callback if found.
@@ -187,10 +265,64 @@ function createSetter(namespace, mappings) {
     };
 }
 
+// Similar to Object.entries but without using polyfill
+var getEntries = function (obj) {
+    return Object.keys(obj).map(function (key) {
+        return [key, obj[key]];
+    });
+};
+
+// Function to compose other functions (right to left evaluation)
+var compose = function () {
+    var fns = arguments;
+
+    return function (result) {
+        for (var i = fns.length - 1; i > -1; i--) {
+            result = fns[i].call(this, result);
+        }
+
+        return result;
+    };
+};
+
+// Convert KeyValuePair[] to Object
+var toObject = function (keyValuePairs) {
+    return keyValuePairs.reduce(function (obj, keyValuePair) {
+        var _keyValuePair = slicedToArray(keyValuePair, 2),
+            key = _keyValuePair[0],
+            value = _keyValuePair[1];
+
+        obj[key] = value;
+
+        return obj;
+    }, {});
+};
+
+// Create a wrapper function which invokes the original function
+// passing in `this.id`
+var wrapGetterFn = function wrapGetterFn(_ref) {
+    var _ref2 = slicedToArray(_ref, 2),
+        key = _ref2[0],
+        originalFn = _ref2[1];
+
+    var newFn = function newFn() {
+        return originalFn(this.id);
+    };
+
+    return [key, newFn];
+};
+
+function invokeGettersWithId(getters) {
+    return getEntries(getters).map(wrapGetterFn).reduce(toObject);
+}
+
+var mapInstanceGetters = compose(invokeGettersWithId, vuex.mapGetters);
+
 module.exports = {
     findInstanceThen: findInstanceThen,
     mapTwoWayState: mapTwoWayState,
-    resolveObjectPath: resolveObjectPath
+    resolveObjectPath: resolveObjectPath,
+    mapInstanceGetters: mapInstanceGetters
 };
 
 })));

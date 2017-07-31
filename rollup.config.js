@@ -3,7 +3,7 @@ import babelrc from 'babelrc-rollup';
 import istanbul from 'rollup-plugin-istanbul';
 
 let pkg = require('./package.json');
-let external = Object.keys(pkg.dependencies);
+let external = Object.keys(pkg.peerDependencies);
 let isProduction = process.env.NODE_ENV === 'production';
 
 let targets = [];

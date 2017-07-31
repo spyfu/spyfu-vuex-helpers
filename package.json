@@ -47,5 +47,8 @@
     "sinon": "^2.3.5",
     "vue": "^2.3.4",
     "vuex": "^2.3.1"
+  },
+  "peerDependencies": {
+    "vuex": "^2.3.1"
   }
 }
