@@ -25,4 +25,8 @@ describe('resolveObjectPath', () => {
     it('accepts a regex delimeter', () => {
         expect(resolveObjectPath(obj, 'foo.bar/baz', /\.|\//)).to.equal('hello');
     });
+
+    it('accepts an array as the path', () => {
+        expect(resolveObjectPath(obj, ['foo', 'bar', 'baz'])).to.equal('hello');
+    });
 });
