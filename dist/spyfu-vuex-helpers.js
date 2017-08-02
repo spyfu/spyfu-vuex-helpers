@@ -166,16 +166,18 @@ function stateAndPayloadAreValid(config, state, payload) {
  * Helper function for resolving nested object values.
  *
  * @param  {Object}         obj         source object
- * @param  {String}         path        path to nested value
+ * @param  {Array|String}   path        path to nested value
  * @param  {String|RegExp}  delimeter   characters / pattern to split path on
  * @return {mixed}
  */
 var resolveObjectPath = function (obj, path) {
-  var delimeter = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '.';
+    var delimeter = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '.';
 
-  return path.split(delimeter).reduce(function (p, item) {
-    return p && p[item];
-  }, obj);
+    var pathArray = Array.isArray(path) ? path : path.split(delimeter);
+
+    return pathArray.reduce(function (p, item) {
+        return p && p[item];
+    }, obj);
 };
 
 /**
@@ -312,7 +314,10 @@ var wrapGetterFn = function wrapGetterFn(_ref) {
     var newFn = function newFn() {
         var innerFn = originalFn.apply(this, arguments);
 
-        if (typeof innerFn !== 'function') throw 'The getter ' + key + ' does not return a function. Try using the \'mapGetter\' helper instead';
+        if (typeof innerFn !== 'function') {
+            /* istanbul ignore next */
+            throw 'The getter ' + key + ' does not return a function. Try using the \'mapGetter\' helper instead';
+        }
 
         return innerFn(this.id);
     };
