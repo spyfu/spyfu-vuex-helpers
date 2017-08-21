@@ -1,8 +1,8 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('vuex')) :
-  typeof define === 'function' && define.amd ? define(['vuex'], factory) :
-  (factory(global.Vuex));
-}(this, (function (vuex) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('vuex')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'vuex'], factory) :
+  (factory((global.spyfuVuexHelpers = global.spyfuVuexHelpers || {}),global.Vuex));
+}(this, (function (exports,vuex) { 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
@@ -264,7 +264,7 @@ var resolveObjectPath = function (obj, path) {
  * @param  {Object}         optional state mappings
  * @return {Object}
  */
-var mapTwoWayState = function () {
+var map_two_way_state = function () {
     // this function supports two argument signatures. if the
     // first argument is a string, we will use that as the
     // namespace, and the next arg as the state mapping
@@ -352,7 +352,7 @@ function createSetter(namespace, mappings) {
  * @param  {String}
  * @return {Object}
  */
-var simpleInstanceSetters = function (setters) {
+var simple_instance_setters = function (setters) {
     var stateKey = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'instances';
     var instanceKey = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'id';
 
@@ -411,7 +411,7 @@ function findValue(payload, instanceKey) {
  * @param  {Object} setters     Object mapping mutations to state
  * @return {Object}
  */
-var simpleSetters = function (setters) {
+var simple_setters = function (setters) {
     // loop over the setter keys and make a mutation for each
     return Object.keys(setters).reduce(function (mutations, name) {
 
@@ -433,14 +433,14 @@ var simpleSetters = function (setters) {
     }, {});
 };
 
-module.exports = {
-    findInstanceThen: findInstanceThen,
-    mapInstanceGetters: mapInstanceGetters,
-    mapTwoWayState: mapTwoWayState,
-    resolveObjectPath: resolveObjectPath,
-    simpleInstanceSetters: simpleInstanceSetters,
-    simpleSetters: simpleSetters
-};
+exports.findInstanceThen = findInstanceThen;
+exports.mapInstanceGetters = mapInstanceGetters;
+exports.mapTwoWayState = map_two_way_state;
+exports.resolveObjectPath = resolveObjectPath;
+exports.simpleInstanceSetters = simple_instance_setters;
+exports.simpleSetters = simple_setters;
+
+Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
 //# sourceMappingURL=spyfu-vuex-helpers.js.map

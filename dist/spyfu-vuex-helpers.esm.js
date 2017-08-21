@@ -260,7 +260,7 @@ var resolveObjectPath = function (obj, path) {
  * @param  {Object}         optional state mappings
  * @return {Object}
  */
-var mapTwoWayState = function () {
+var map_two_way_state = function () {
     // this function supports two argument signatures. if the
     // first argument is a string, we will use that as the
     // namespace, and the next arg as the state mapping
@@ -348,7 +348,7 @@ function createSetter(namespace, mappings) {
  * @param  {String}
  * @return {Object}
  */
-var simpleInstanceSetters = function (setters) {
+var simple_instance_setters = function (setters) {
     var stateKey = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'instances';
     var instanceKey = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'id';
 
@@ -407,7 +407,7 @@ function findValue(payload, instanceKey) {
  * @param  {Object} setters     Object mapping mutations to state
  * @return {Object}
  */
-var simpleSetters = function (setters) {
+var simple_setters = function (setters) {
     // loop over the setter keys and make a mutation for each
     return Object.keys(setters).reduce(function (mutations, name) {
 
@@ -429,12 +429,5 @@ var simpleSetters = function (setters) {
     }, {});
 };
 
-module.exports = {
-    findInstanceThen: findInstanceThen,
-    mapInstanceGetters: mapInstanceGetters,
-    mapTwoWayState: mapTwoWayState,
-    resolveObjectPath: resolveObjectPath,
-    simpleInstanceSetters: simpleInstanceSetters,
-    simpleSetters: simpleSetters
-};
+export { findInstanceThen, mapInstanceGetters, map_two_way_state as mapTwoWayState, resolveObjectPath, simple_instance_setters as simpleInstanceSetters, simple_setters as simpleSetters };
 //# sourceMappingURL=spyfu-vuex-helpers.esm.js.map
