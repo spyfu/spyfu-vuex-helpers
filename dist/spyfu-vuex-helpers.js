@@ -1,7 +1,7 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('vuex')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'vuex'], factory) :
-  (factory((global.spyfuVuexHelpers = global.spyfuVuexHelpers || {}),global.Vuex));
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('vuex')) :
+	typeof define === 'function' && define.amd ? define(['exports', 'vuex'], factory) :
+	(factory((global.spyfuVuexHelpers = {}),global.Vuex));
 }(this, (function (exports,vuex) { 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
@@ -402,6 +402,7 @@ function findValue(payload, instanceKey) {
     }
 
     // if we don't have a value, throw an error because the payload is invalid.
+    /* istanbul ignore next */
     throw new Error('Failed to mutate instance, no value found in payload.', payload);
 }
 

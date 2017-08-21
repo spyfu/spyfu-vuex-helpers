@@ -398,6 +398,7 @@ function findValue(payload, instanceKey) {
     }
 
     // if we don't have a value, throw an error because the payload is invalid.
+    /* istanbul ignore next */
     throw new Error('Failed to mutate instance, no value found in payload.', payload);
 }
 
