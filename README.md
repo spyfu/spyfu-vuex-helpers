@@ -139,6 +139,36 @@ export default {
 }
 ```
 
+<a name="simple-setters"></a>
+### simpleSetters
+
+Often a mutation exists only to take some input, and put it somewhere in state. In these situations, we can use the `simpleSetters` helper to map mutation names to state.
+
+```js
+import { simpleSetters } from 'spyfu-vuex-helpers';
+
+export default {
+    ...simpleSetters({
+        mutationName: 'path.to.state',
+    }),
+}
+```
+
+<a name="simple-instance-setters"></a>
+### simpleInstanceSetters
+
+Similar to [`simpleSetters`](#simple-setters), but for use with the state instances pattern. The second and third arguments can define the state key and instance identifier key. By default, they are set to `instances` and `id` respectively.
+
+```js
+import { simpleInstanceSetters } from 'spyfu-vuex-helpers';
+
+export default {
+    ...simpleInstanceSetters({
+        mutationName: 'path.to.state',
+    }),
+}
+```
+
 ### License
 
 [MIT](https://github.com/spyfu/spyfu-vuex-helpers/blob/master/LICENSE)
