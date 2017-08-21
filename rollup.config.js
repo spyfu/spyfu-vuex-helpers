@@ -6,24 +6,24 @@ let pkg = require('./package.json');
 let external = Object.keys(pkg.peerDependencies);
 let isProduction = process.env.NODE_ENV === 'production';
 
-let targets = [];
+let output = [];
 let plugins = [babel(babelrc())];
 
 //
 // production config
 //
 if (isProduction) {
-    targets.push(
+    output.push(
         {
-            dest: pkg.main,
+            file: pkg.main,
             format: 'umd',
-            moduleName: 'spyfuVuexHelpers',
-            sourceMap: true,
+            name: 'spyfuVuexHelpers',
+            sourcemap: true,
         },
         {
-            dest: pkg.module,
+            file: pkg.module,
             format: 'es',
-            sourceMap: true,
+            sourcemap: true,
         }
     )
 }
@@ -41,11 +41,11 @@ else {
 }
 
 export default {
-    entry: 'lib/index.js',
+    input: 'lib/index.js',
     globals: {
         vuex: 'Vuex'
     },
     plugins: plugins,
     external: external,
-    targets: targets,
+    output: output,
 };
