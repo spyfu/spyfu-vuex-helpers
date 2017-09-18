@@ -9,7 +9,7 @@
 <a name="introduction"></a>
 ### Introduction
 
-These utility functions are intended for use with [Vuex](https://vuex.vuejs.org/en).
+These utility functions are intended for use with [Vuex](https://vuex.vuejs.org/en). To install the helpers, run one of the following commands.
 
 ```bash
 # install through npm
@@ -18,6 +18,13 @@ $ npm install spyfu-vuex-helpers
 # or with yarn
 $ yarn add spyfu-vuex-helpers
 ```
+
+- [findInstanceThen](#find-instance-then)
+- [mapInstanceGetters](#map-instance-getters)
+- [mapTwoWayState](#map-two-way-state)
+- [resolveObjectPath](#resolve-object-path)
+- [simpleSetters](#simple-setters)
+- [simpleInstanceSetters](#simple-instance-setters)
 
 <a name="find-instance-then"></a>
 ### findInstanceThen
