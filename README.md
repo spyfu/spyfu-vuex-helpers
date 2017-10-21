@@ -21,6 +21,7 @@ $ yarn add spyfu-vuex-helpers
 
 - [findInstanceThen](#find-instance-then)
 - [mapInstanceGetters](#map-instance-getters)
+- [mapInstanceState](#map-instance-state)
 - [mapTwoWayState](#map-two-way-state)
 - [resolveObjectPath](#resolve-object-path)
 - [simpleSetters](#simple-setters)
@@ -86,10 +87,31 @@ export default {
     data() {
         return { id: 0 }
     },
-    
+
     computed: {
         ...mapInstanceGetters('namespace', ['getterOne', 'getterTwo' ]),
     },
+}
+```
+
+<a name="map-instance-state"></a>
+### mapInstanceState
+
+Simply maps state from an instance. This function supports an optional namespace as the first argument. Also, this function also supports a third argument to define the vm's instance identifier, By default, this value will be `id`.
+
+```js
+export default {
+    computed: {
+        // array syntax
+        ...mapInstanceState([
+            'path.to.state',
+        ]),
+
+        // object syntax
+        ...mapInstanceState({
+            localKey: 'path.to.state',
+        })
+    }
 }
 ```
 
