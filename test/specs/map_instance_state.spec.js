@@ -35,6 +35,7 @@ const mount = function(vm) {
                 { id: 4, value: 'test4' },
                 { id: 7, one: { two: 'test7' }},
                 { id: 8, value: 'test8' },
+                { id: 10, one: { two: 'test10' }},
             ],
         },
     });
@@ -86,6 +87,18 @@ describe('mapInstanceState', () => {
         });
 
         expect(vm.value).to.equal('test3');
+    });
+
+    // test 10
+    it('array syntax, state path', () => {
+        const vm = mount({
+            computed: {
+                id: () => 10,
+                ...mapInstanceState(['one.two']),
+            },
+        });
+
+        expect(vm.two).to.equal('test10');
     });
 
     // test 4
@@ -158,5 +171,7 @@ describe('mapInstanceState', () => {
         });
 
         expect(vm.value).to.equal('test9');
-    })
+    });
+
+    // 11
 });
