@@ -97,7 +97,7 @@ export default {
 <a name="map-instance-state"></a>
 ### mapInstanceState
 
-Simply maps state from a state instance. This function supports an optional namespace as the first argument. Also, this function also supports a third argument to define the vm's instance identifier, By default, this value will be `id`.
+Simply maps state from an instance. This function supports an optional namespace as the first argument. Also, this function also supports a third argument to define the vm's instance identifier, By default, this value will be `id`.
 
 ```js
 export default {
