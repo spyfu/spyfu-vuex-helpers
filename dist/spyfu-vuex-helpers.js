@@ -350,6 +350,31 @@ function invokeGettersWithId(getters) {
 
 var mapInstanceGetters = compose(invokeGettersWithId, vuex.mapGetters);
 
+function parseMappingArguments(args) {
+    // namespace is optional
+    var namespace = typeof args[0] === 'string' ? args[0] : null;
+
+    // mappings are required
+    var mappings = namespace ? args[1] : args[0];
+
+    // by default, the vm identifier key will be 'id'
+    var vmIdentifierKey = (namespace ? args[2] : args[1]) || 'id';
+
+    // by default, the instance identifier will be 'id'
+    var stateKey = 'instances';
+
+    // by default, the state key will be 'instances'
+    var instanceIdentifierKey = 'id';
+
+    return {
+        namespace: namespace,
+        mappings: mappings,
+        vmIdentifierKey: vmIdentifierKey,
+        instanceIdentifierKey: instanceIdentifierKey,
+        stateKey: stateKey
+    };
+}
+
 /**
  * Helper function for resolving nested object values.
  *
@@ -367,6 +392,82 @@ var resolveObjectPath = function (obj, path) {
         return p && p[item];
     }, obj);
 };
+
+var map_instance_state = function () {
+    // extract our namespace and mappings from the arguments
+    var _parseMappingArgument = parseMappingArguments(arguments),
+        namespace = _parseMappingArgument.namespace,
+        mappings = _parseMappingArgument.mappings,
+        vmIdentifierKey = _parseMappingArgument.vmIdentifierKey,
+        instanceIdentifierKey = _parseMappingArgument.instanceIdentifierKey,
+        stateKey = _parseMappingArgument.stateKey;
+
+    // normalize our mappings
+
+
+    var normalizedMappings = normalizeMappings(mappings);
+
+    // create a getter for each mapped piece of state
+    var computedProperties = {};
+
+    Object.keys(normalizedMappings).forEach(function (key) {
+        var computedKey = key.split('.').pop();
+
+        computedProperties[computedKey] = createGetter({
+            key: key,
+            namespace: namespace,
+            normalizedMappings: normalizedMappings,
+            vmIdentifierKey: vmIdentifierKey,
+            instanceIdentifierKey: instanceIdentifierKey,
+            stateKey: stateKey
+        });
+    });
+
+    return computedProperties;
+};
+
+// normalize the mappings into a consistent object format
+function normalizeMappings(mappings) {
+    if (Array.isArray(mappings)) {
+        return mappings.reduce(function (normalizedMappings, key) {
+            normalizedMappings[key] = key;
+
+            return normalizedMappings;
+        }, {});
+    }
+
+    return mappings;
+}
+
+// create a getter for a particular piece of state
+function createGetter(_ref) {
+    var key = _ref.key,
+        namespace = _ref.namespace,
+        normalizedMappings = _ref.normalizedMappings,
+        vmIdentifierKey = _ref.vmIdentifierKey,
+        instanceIdentifierKey = _ref.instanceIdentifierKey,
+        stateKey = _ref.stateKey;
+
+    return function () {
+        var _this = this;
+
+        // find the state object
+        var state = namespace ? resolveObjectPath(this.$store.state, namespace, '/') : this.$store.state;
+
+        // find our container of instances
+        var instancesContainer = resolveObjectPath(state, stateKey, '.');
+
+        // find our instance within it
+        var instance = instancesContainer.find(function (obj) {
+            return obj[instanceIdentifierKey] === _this[vmIdentifierKey];
+        });
+
+        // and if all goes well, resolve the piece of state we're looking for
+        if (instance) {
+            return resolveObjectPath(instance, normalizedMappings[key]);
+        }
+    };
+}
 
 /**
  * Map vuex state with two way computed properties
@@ -393,7 +494,7 @@ var map_two_way_state = function () {
 
     Object.keys(parsedMappings).forEach(function (key) {
         computedProperties[key] = {
-            get: createGetter(namespace, parsedMappings[key]),
+            get: createGetter$1(namespace, parsedMappings[key]),
             set: createSetter(namespace, parsedMappings[key])
         };
     });
@@ -428,7 +529,7 @@ function parseMappings(obj) {
 }
 
 // create a getter for computed properties
-function createGetter(namespace, mapping) {
+function createGetter$1(namespace, mapping) {
     if (namespace) {
         return function () {
             var state = resolveObjectPath(this.$store.state, namespace, '/');
@@ -547,6 +648,7 @@ var simple_setters = function (setters) {
 
 exports.findInstanceThen = findInstanceThen;
 exports.mapInstanceGetters = mapInstanceGetters;
+exports.mapInstanceState = map_instance_state;
 exports.mapTwoWayState = map_two_way_state;
 exports.resolveObjectPath = resolveObjectPath;
 exports.simpleInstanceSetters = simple_instance_setters;
