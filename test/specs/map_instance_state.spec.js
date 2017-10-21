@@ -16,6 +16,7 @@ const mount = function(vm) {
                             instances: [
                                 { id: 3, value: 'test3' },
                                 { id: 6, value: 'test6' },
+                                { id: 11, value: 'test11' },
                             ],
                         },
                     },
@@ -174,4 +175,14 @@ describe('mapInstanceState', () => {
     });
 
     // 11
+    it('alternate vm idenfitier, nested namespace', () => {
+        const vm = mount({
+            computed: {
+                alternateId: () => 11,
+                ...mapInstanceState('namespaced/foo', ['value'], 'alternateId'),
+            },
+        });
+
+        expect(vm.value).to.equal('test11');
+    })
 });
