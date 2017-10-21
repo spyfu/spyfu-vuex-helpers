@@ -15,7 +15,7 @@ const mount = function(vm) {
                         state: {
                             instances: [
                                 { id: 3, value: 'test3' },
-                                { id: 5, value: 'test5' },
+                                { id: 6, value: 'test6' },
                             ],
                         },
                     },
@@ -23,7 +23,8 @@ const mount = function(vm) {
                 state: {
                     instances: [
                         { id: 2, value: 'test2' },
-                        { id: 4, value: 'test4' },
+                        { id: 5, value: 'test5' },
+                        { id: 9, value: 'test9' },
                     ],
                 },
             },
@@ -32,6 +33,8 @@ const mount = function(vm) {
             instances: [
                 { id: 1, value: 'test1' },
                 { id: 4, value: 'test4' },
+                { id: 7, one: { two: 'test7' }},
+                { id: 8, value: 'test8' },
             ],
         },
     });
@@ -47,7 +50,7 @@ const mount = function(vm) {
 //
 // tests
 //
-describe.only('mapInstanceState', () => {
+describe('mapInstanceState', () => {
 
     // test 1
     it('array syntax', () => {
@@ -97,27 +100,63 @@ describe.only('mapInstanceState', () => {
         expect(vm.foo).to.equal('test4');
     });
 
-    // test 4
+    // test 5
     it('object syntax, namespaced', () => {
         const vm = mount({
             computed: {
-                id: () => 4,
-                ...mapInstanceState('namespaced', { foo: 'value' }),
-            }
-        });
-
-        expect(vm.foo).to.equal('test4');
-    });
-
-    // test 5
-    it('object syntax, nested namespace', () => {
-        const vm = mount({
-            computed: {
                 id: () => 5,
-                ...mapInstanceState('namespaced/foo', { foo: 'value' }),
+                ...mapInstanceState('namespaced', { foo: 'value' }),
             }
         });
 
         expect(vm.foo).to.equal('test5');
     });
+
+    // test 6
+    it('object syntax, nested namespace', () => {
+        const vm = mount({
+            computed: {
+                id: () => 6,
+                ...mapInstanceState('namespaced/foo', { foo: 'value' }),
+            }
+        });
+
+        expect(vm.foo).to.equal('test6');
+    });
+
+    // test 7
+    it('object syntax, state path', () => {
+        const vm = mount({
+            computed: {
+                id: () => 7,
+                ...mapInstanceState({ foo: 'one.two' }),
+            }
+        });
+
+        expect(vm.foo).to.equal('test7');
+    });
+
+    // test 8
+    it('alternate vm identifier', () => {
+        const vm = mount({
+            computed: {
+                alternateId: () => 8,
+                ...mapInstanceState(['value'], 'alternateId'),
+            }
+        });
+
+        expect(vm.value).to.equal('test8');
+    });
+
+    // test 9
+    it('alternate vm identifier, namespaced', () => {
+        const vm = mount({
+            computed: {
+                alternateId: () => 9,
+                ...mapInstanceState('namespaced', ['value'], 'alternateId'),
+            },
+        });
+
+        expect(vm.value).to.equal('test9');
+    })
 });
