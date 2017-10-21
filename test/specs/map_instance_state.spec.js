@@ -175,7 +175,7 @@ describe('mapInstanceState', () => {
     });
 
     // 11
-    it('alternate vm idenfitier, nested namespace', () => {
+    it('alternate vm identifier, nested namespace', () => {
         const vm = mount({
             computed: {
                 alternateId: () => 11,
