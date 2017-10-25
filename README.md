@@ -107,10 +107,15 @@ export default {
             'path.to.state',
         ]),
 
-        // object syntax
+        // object / string syntax
         ...mapInstanceState({
             localKey: 'path.to.state',
-        })
+        }),
+
+        // object / function syntax
+        ...mapInstanceState({
+            localKey: instance => instance.whatever,
+        }),
     }
 }
 ```
