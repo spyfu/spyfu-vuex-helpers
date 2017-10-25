@@ -17,6 +17,7 @@ const mount = function(vm) {
                                 { id: 3, value: 'test3' },
                                 { id: 6, value: 'test6' },
                                 { id: 11, value: 'test11' },
+                                { id: 14, value: 'test14' },
                             ],
                         },
                     },
@@ -26,6 +27,7 @@ const mount = function(vm) {
                         { id: 2, value: 'test2' },
                         { id: 5, value: 'test5' },
                         { id: 9, value: 'test9' },
+                        { id: 13, value: 'test13' },
                     ],
                 },
             },
@@ -37,6 +39,7 @@ const mount = function(vm) {
                 { id: 7, one: { two: 'test7' }},
                 { id: 8, value: 'test8' },
                 { id: 10, one: { two: 'test10' }},
+                { id: 12, value: 'test12' },
             ],
         },
     });
@@ -184,5 +187,41 @@ describe('mapInstanceState', () => {
         });
 
         expect(vm.value).to.equal('test11');
+    });
+
+    // 12
+    it('function syntax', () => {
+        const vm = mount({
+            computed: {
+                id: () => 12,
+                ...mapInstanceState({ foo: instance => instance.value }),
+            },
+        });
+
+        expect(vm.foo).to.equal('test12');
+    });
+
+    // 13
+    it('function syntax, namespaced', () => {
+        const vm = mount({
+            computed: {
+                id: () => 13,
+                ...mapInstanceState('namespaced', { foo: instance => instance.value }),
+            },
+        });
+
+        expect(vm.foo).to.equal('test13');
+    });
+
+    // 14
+    it('function syntax, nested namespace', () => {
+        const vm = mount({
+            computed: {
+                id: () => 14,
+                ...mapInstanceState('namespaced/foo', { foo: instance => instance.value }),
+            },
+        });
+
+        expect(vm.foo).to.equal('test14');
     })
 });
