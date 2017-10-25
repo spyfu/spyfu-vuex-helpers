@@ -460,7 +460,7 @@ function createGetter(_ref) {
 
         // and if all goes well, resolve the piece of state we're looking for
         if (instance) {
-            return resolveObjectPath(instance, normalizedMappings[key]);
+            return typeof normalizedMappings[key] === 'function' ? normalizedMappings[key](instance) : resolveObjectPath(instance, normalizedMappings[key]);
         }
     };
 }
