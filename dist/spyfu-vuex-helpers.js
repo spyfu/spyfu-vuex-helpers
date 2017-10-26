@@ -286,6 +286,38 @@ function stateAndPayloadAreValid(config, state, payload) {
     return true;
 }
 
+/**
+ * Instance mutations.
+ *
+ * @return {Object}
+ */
+var instance_mutations = function () {
+    var _parseArguments = parseArguments$1(arguments),
+        options = _parseArguments.options,
+        mutations = _parseArguments.mutations;
+
+    return Object.keys(mutations).reduce(function (instanceMutations, name) {
+        instanceMutations[name] = findInstanceThen(options, mutations[name]);
+
+        return instanceMutations;
+    }, {});
+};
+
+// parse arguments
+function parseArguments$1(args) {
+    var hasOptionsArg = args.length > 1;
+
+    var defaultOptions = {
+        stateKey: 'instances',
+        instanceKey: 'id'
+    };
+
+    return {
+        options: hasOptionsArg ? args[0] : defaultOptions,
+        mutations: hasOptionsArg ? args[1] : args[0]
+    };
+}
+
 // Similar to Object.entries but without using polyfill
 var getEntries = function (obj) {
     return Object.keys(obj).map(function (key) {
@@ -480,7 +512,7 @@ var map_two_way_state = function () {
     // this function supports two argument signatures. if the
     // first argument is a string, we will use that as the
     // namespace, and the next arg as the state mapping
-    var _parseArguments = parseArguments$1(arguments),
+    var _parseArguments = parseArguments$2(arguments),
         namespace = _parseArguments.namespace,
         mappings = _parseArguments.mappings;
 
@@ -503,7 +535,7 @@ var map_two_way_state = function () {
 };
 
 // determine the values of our namespace and mappings
-function parseArguments$1(args) {
+function parseArguments$2(args) {
     var first = args[0];
     var second = args[1];
 
@@ -647,6 +679,7 @@ var simple_setters = function (setters) {
 };
 
 exports.findInstanceThen = findInstanceThen;
+exports.instanceMutations = instance_mutations;
 exports.mapInstanceGetters = mapInstanceGetters;
 exports.mapInstanceState = map_instance_state;
 exports.mapTwoWayState = map_two_way_state;
