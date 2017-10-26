@@ -20,6 +20,7 @@ $ yarn add spyfu-vuex-helpers
 ```
 
 - [findInstanceThen](#find-instance-then)
+- [instanceMutations](#instance-mutations)
 - [mapInstanceGetters](#map-instance-getters)
 - [mapInstanceState](#map-instance-state)
 - [mapTwoWayState](#map-two-way-state)
@@ -31,6 +32,8 @@ $ yarn add spyfu-vuex-helpers
 ### findInstanceThen
 
 This function helps with keeping multiple copies of the same state. One way to do this is for your state to be nothing more than an array of objects. The `findInstanceThen` helper can then be used to map your mutations to a particular instance.
+
+> **Note:** If you're writing more than one or two mutations, using [`instanceMutations`](#instance-mutations) might be a better choice.
 
 ```js
 import { findInstanceThen } from 'spyfu-vuex-helpers';
@@ -61,6 +64,23 @@ const findInstanceThen = helpers.findInstanceThen.config({
     stateKey: 'foo',
     instanceKey: 'bar',
 });
+```
+
+<a name="instance-mutations"></a>
+### instanceMutations
+
+This helper wraps multiple mutations in [`findInstanceThen`](#find-instance-then). By default, the state key will be `instances` and the instance idenfitier key will be `id`. These keys can be customized by providing an object as the first argument with different `stateKey` or `instanceKey` values.
+
+```js
+import { instanceMutations } from 'spyfu-vuex-helpers';
+
+export default {
+    ...instanceMutations({
+        someMutation(instance, payload, state) {
+            instance.key = payload.key;
+        },
+    }),
+}
 ```
 
 <a name="map-instance-getters"></a>
