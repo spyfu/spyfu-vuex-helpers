@@ -11,7 +11,7 @@ function createStore() {
             // default state and instance idenfitier keys
             ...instanceGetters({
                 test1: instance => instance.value.toUpperCase(),
-                test2: instance => true,
+                test2: () => true,
                 test6: (instance, getters, state) => state.test6.toUpperCase(),
                 test7: (instance, getters, state, key) => key,
             }),
