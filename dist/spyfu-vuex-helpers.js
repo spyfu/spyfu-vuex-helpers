@@ -287,12 +287,49 @@ function stateAndPayloadAreValid(config, state, payload) {
 }
 
 /**
+ * Instance getters.
+ *
+ * @return {Object}
+ */
+var instance_getters = function () {
+    var _parseArguments = parseArguments$1(arguments),
+        getters = _parseArguments.getters,
+        options = _parseArguments.options;
+
+    return Object.keys(getters).reduce(function (instanceGetters, name) {
+        instanceGetters[name] = function (state, otherGetters) {
+            return function (instanceKey) {
+                var instance = state[options.stateKey || 'instances'].find(function (obj) {
+                    return obj[options.instanceKey || 'id'] === instanceKey;
+                });
+
+                if (instance) {
+                    return getters[name](instance, otherGetters, state, instanceKey);
+                }
+            };
+        };
+
+        return instanceGetters;
+    }, {});
+};
+
+// parse arguments
+function parseArguments$1(args) {
+    var hasOptionsArg = args.length > 1;
+
+    return {
+        options: hasOptionsArg ? args[0] : {},
+        getters: hasOptionsArg ? args[1] : args[0]
+    };
+}
+
+/**
  * Instance mutations.
  *
  * @return {Object}
  */
 var instance_mutations = function () {
-    var _parseArguments = parseArguments$1(arguments),
+    var _parseArguments = parseArguments$2(arguments),
         options = _parseArguments.options,
         mutations = _parseArguments.mutations;
 
@@ -304,7 +341,7 @@ var instance_mutations = function () {
 };
 
 // parse arguments
-function parseArguments$1(args) {
+function parseArguments$2(args) {
     var hasOptionsArg = args.length > 1;
 
     var defaultOptions = {
@@ -512,7 +549,7 @@ var map_two_way_state = function () {
     // this function supports two argument signatures. if the
     // first argument is a string, we will use that as the
     // namespace, and the next arg as the state mapping
-    var _parseArguments = parseArguments$2(arguments),
+    var _parseArguments = parseArguments$3(arguments),
         namespace = _parseArguments.namespace,
         mappings = _parseArguments.mappings;
 
@@ -535,7 +572,7 @@ var map_two_way_state = function () {
 };
 
 // determine the values of our namespace and mappings
-function parseArguments$2(args) {
+function parseArguments$3(args) {
     var first = args[0];
     var second = args[1];
 
@@ -679,6 +716,7 @@ var simple_setters = function (setters) {
 };
 
 exports.findInstanceThen = findInstanceThen;
+exports.instanceGetters = instance_getters;
 exports.instanceMutations = instance_mutations;
 exports.mapInstanceGetters = mapInstanceGetters;
 exports.mapInstanceState = map_instance_state;
