@@ -20,6 +20,7 @@ $ yarn add spyfu-vuex-helpers
 ```
 
 - [findInstanceThen](#find-instance-then)
+- [instanceGetters](#instance-getters)
 - [instanceMutations](#instance-mutations)
 - [mapInstanceGetters](#map-instance-getters)
 - [mapInstanceState](#map-instance-state)
@@ -64,6 +65,23 @@ const findInstanceThen = helpers.findInstanceThen.config({
     stateKey: 'foo',
     instanceKey: 'bar',
 });
+```
+
+<a name="instance-getters"></a>
+### instanceGetters
+
+A simple helper to find instances and return computed state from them. If an instance is not found, the getter will return `undefined`.
+
+```js
+import { instanceGetters } from 'spyfu-vuex-helpers';
+
+export default {
+    ...instanceGetters({
+        someGetters(instance, otherGetters, state) {
+            return instance.whatever;
+        },
+    }),
+}
 ```
 
 <a name="instance-mutations"></a>
