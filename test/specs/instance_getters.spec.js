@@ -12,6 +12,8 @@ function createStore() {
             ...instanceGetters({
                 test1: instance => instance.value.toUpperCase(),
                 test2: instance => true,
+                test6: (instance, getters, state) => state.test6.toUpperCase(),
+                test7: (instance, getters, state, key) => key,
             }),
 
             // customized state key
@@ -30,9 +32,12 @@ function createStore() {
             }),
         },
         state: {
+            test6: 'six',
             instances: [
                 { id: 1, value: 'one' },
                 { otherId: 4, value: 'four' },
+                { id: 6 },
+                { id: 7 },
             ],
             otherInstances: [
                 { id: 3, value: 'three' },
@@ -70,5 +75,13 @@ describe('instanceGetters', () => {
 
     it('can be configured with different state and instance keys', () => {
         expect(store.getters.test5(5)).to.equal('FIVE');
+    });
+
+    it('supplies the root state as the third argument', () => {
+        expect(store.getters.test6(6)).to.equal('SIX');
+    });
+
+    it('supplies the instance identifier key as the fourth argument', () => {
+        expect(store.getters.test7(7)).to.equal(7);
     });
 });
