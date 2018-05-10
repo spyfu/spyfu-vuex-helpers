@@ -1,12 +1,12 @@
+import { Store } from 'vuex'
 import { expect } from 'chai';
 import { instanceGetters } from '../../lib';
-import Vuex from 'vuex';
 
 //
 // factory
 //
 function createStore() {
-    return new Vuex.Store({
+    return new Store({
         getters: {
             // default state and instance idenfitier keys
             ...instanceGetters({

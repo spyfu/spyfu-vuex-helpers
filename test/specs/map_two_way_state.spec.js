@@ -1,14 +1,14 @@
+import Vue from 'vue';
+import sinon from 'sinon';
+import { Store } from 'vuex'
 import { expect } from 'chai';
 import { mapTwoWayState } from '../../lib';
-import sinon from 'sinon';
-import Vue from 'vue';
-import Vuex from 'vuex';
 
 //
 // factory
 //
 function CreateComponent(options = {}) {
-    const store = new Vuex.Store({
+    const store = new Store({
         modules: {
             foo: {
                 namespaced: true,

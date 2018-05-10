@@ -1,13 +1,13 @@
+import Vue from 'vue';
+import { Store } from 'vuex'
 import { expect } from 'chai';
 import { mapInstanceState } from '../../lib';
-import Vue from 'vue';
-import Vuex from 'vuex';
 
 //
 // factory
 //
 const mount = function(vm) {
-    const store = new Vuex.Store({
+    const store = new Store({
         modules: {
             namespaced: {
                 modules: {

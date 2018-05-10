@@ -1,13 +1,13 @@
+import Vue from 'vue';
+import { Store } from 'vuex'
 import { expect } from 'chai';
 import { mapInstanceGetters } from '../../lib';
-import Vue from 'vue';
-import Vuex from 'vuex';
 
 //
 // factory
 //
 function CreateComponent(options = {}) {
-    const store = new Vuex.Store({
+    const store = new Store({
         modules: {
             foo: {
                 namespaced: true,

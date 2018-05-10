@@ -1,10 +1,10 @@
-import Vuex from 'vuex';
+import { Store } from 'vuex'
 import { expect } from 'chai';
 import { simpleSetters } from '../../lib';
 
 describe('simpleSetters', () => {
     it('basic state', () => {
-        const store = new Vuex.Store({
+        const store = new Store({
             mutations: simpleSetters({
                 setFoo: 'foo',
             }),
@@ -18,7 +18,7 @@ describe('simpleSetters', () => {
     });
 
     it('nested state', () => {
-        const store = new Vuex.Store({
+        const store = new Store({
             mutations: simpleSetters({
                 setBaz: 'foo.bar.baz',
             }),

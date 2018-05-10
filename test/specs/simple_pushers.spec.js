@@ -1,10 +1,10 @@
-import Vuex from 'vuex';
+import { Store } from 'vuex'
 import { expect } from 'chai';
 import { simplePushers } from '../../lib';
 
 describe('simplePushers', () => {
     it('basic state', () => {
-        const store = new Vuex.Store({
+        const store = new Store({
             mutations: simplePushers({
                 pushFoo: 'foo',
             }),
@@ -21,7 +21,7 @@ describe('simplePushers', () => {
     });
 
     it('nested state', () => {
-        const store = new Vuex.Store({
+        const store = new Store({
             mutations: simplePushers({
                 pushBaz: 'foo.bar.baz',
             }),
@@ -42,7 +42,7 @@ describe('simplePushers', () => {
         let caught = false;
 
         try {
-            const store = new Vuex.Store({
+            const store = new Store({
                 mutations: simplePushers({
                     pushFoo: 'bar',
                 }),
@@ -65,7 +65,7 @@ describe('simplePushers', () => {
         let caught = false;
 
         try {
-            const store = new Vuex.Store({
+            const store = new Store({
                 mutations: simplePushers({
                     pushFoo: 'bar',
                 }),
@@ -90,7 +90,7 @@ describe('simplePushers', () => {
         let caught = false;
 
         try {
-            const store = new Vuex.Store({
+            const store = new Store({
                 mutations: simplePushers({
                     pushBaz: 'non.existant.whatever',
                 }),
@@ -113,7 +113,7 @@ describe('simplePushers', () => {
         let caught = false;
 
         try {
-            const store = new Vuex.Store({
+            const store = new Store({
                 mutations: simplePushers({
                     pushBaz: 'foo.bar',
                 }),
@@ -138,7 +138,7 @@ describe('simplePushers', () => {
         let caught = false;
 
         try {
-            const store = new Vuex.Store({
+            const store = new Store({
                 mutations: simplePushers({
                     pushBaz: 'foo.bar',
                 }),

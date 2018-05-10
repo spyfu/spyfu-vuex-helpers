@@ -1,12 +1,12 @@
+import { Store } from 'vuex'
 import { expect } from 'chai';
 import { instanceMutations } from '../../lib';
-import Vuex from 'vuex';
 
 //
 // factory
 //
 function createStore() {
-    return new Vuex.Store({
+    return new Store({
         state: {
             instances: [
                 { id: 1, value: 'test1' },

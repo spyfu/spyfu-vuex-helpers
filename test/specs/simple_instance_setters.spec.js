@@ -1,11 +1,11 @@
-import Vuex from 'vuex';
 import sinon from 'sinon';
+import { Store } from 'vuex'
 import { expect } from 'chai';
 import { simpleInstanceSetters } from '../../lib';
 
 describe('simpleInstanceSetters', () => {
     it('uses "instances" and "id" as the default identifiers', () => {
-        const store = new Vuex.Store({
+        const store = new Store({
             mutations: simpleInstanceSetters({
                 setFoo: 'foo',
             }),
@@ -24,7 +24,7 @@ describe('simpleInstanceSetters', () => {
     });
 
     it('accepts a custom instanceKey and identifierKey', () => {
-        const store = new Vuex.Store({
+        const store = new Store({
             mutations: simpleInstanceSetters({
                 setFoo: 'foo',
             }, 'customInstances', 'customId'),
@@ -43,7 +43,7 @@ describe('simpleInstanceSetters', () => {
     });
 
     it('can set nested state', () => {
-        const store = new Vuex.Store({
+        const store = new Store({
             mutations: simpleInstanceSetters({
                 setFoo: 'foo.bar',
             }),
@@ -64,7 +64,7 @@ describe('simpleInstanceSetters', () => {
     it('logs a warning when the instance is not found', () => {
         const warn = sinon.stub(console, 'warn');
 
-        const store = new Vuex.Store({
+        const store = new Store({
             mutations: simpleInstanceSetters({
                 setFoo: 'foo',
             }),
@@ -81,7 +81,7 @@ describe('simpleInstanceSetters', () => {
     });
 
     it('throws an error when the payload is invalid', () => {
-        const store = new Vuex.Store({
+        const store = new Store({
             mutations: simpleInstanceSetters({
                 setFoo: 'foo',
             }),

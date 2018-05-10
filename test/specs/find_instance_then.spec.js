@@ -1,7 +1,7 @@
+import sinon from 'sinon';
+import { Store } from 'vuex'
 import { expect } from 'chai';
 import { findInstanceThen } from '../../lib';
-import sinon from 'sinon';
-import Vuex from 'vuex';
 
 // customized version of the helper
 const configuredFindInstanceThen = findInstanceThen.config({
@@ -13,7 +13,7 @@ const configuredFindInstanceThen = findInstanceThen.config({
 // factory
 //
 function CreateStore(state = {}) {
-    return new Vuex.Store({
+    return new Store({
         mutations: {
             create(state, id) {
                 state.instances.push({ id, value: null });
