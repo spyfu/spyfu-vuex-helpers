@@ -256,6 +256,7 @@ export default {
         mutationName: 'path.to.array',
     }),
 }
+```
 
 <a name="simple-setters"></a>
 ### simpleSetters
