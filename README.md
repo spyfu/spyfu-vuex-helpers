@@ -28,6 +28,7 @@ $ yarn add spyfu-vuex-helpers
 - [resolveObjectPath](#resolve-object-path)
 - [simpleInstanceSetters](#simple-instance-setters)
 - [simplePushers](#simple-pushers)
+- [simpleRemovers](#simple-removers)
 - [simpleSetters](#simple-setters)
 
 <a name="find-instance-then"></a>
@@ -241,6 +242,20 @@ export default {
     }),
 }
 ```
+
+<a name="simple-removers"></a>
+### simpleRemovers
+
+Similar to [`simpleSetters`](#simple-setters) and [`simplePushers`](#simple-pushers), but removes a value from an array.
+
+```js
+import { simplePushers } from 'spyfu-vuex-helpers';
+
+export default {
+    ...simpleRemovers({
+        mutationName: 'path.to.array',
+    }),
+}
 
 <a name="simple-setters"></a>
 ### simpleSetters
