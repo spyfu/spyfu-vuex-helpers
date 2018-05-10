@@ -26,8 +26,9 @@ $ yarn add spyfu-vuex-helpers
 - [mapInstanceState](#map-instance-state)
 - [mapTwoWayState](#map-two-way-state)
 - [resolveObjectPath](#resolve-object-path)
-- [simpleSetters](#simple-setters)
 - [simpleInstanceSetters](#simple-instance-setters)
+- [simplePushers](#simple-pushers)
+- [simpleSetters](#simple-setters)
 
 <a name="find-instance-then"></a>
 ### findInstanceThen
@@ -211,21 +212,6 @@ const value = resolveObjectPath(state, 'some.nested.module.stateKey');
 
 Optionally, a third argument can be provided to use a delimeter other than the default of `.`.
 
-<a name="simple-setters"></a>
-### simpleSetters
-
-Often a mutation exists only to take some input, and put it somewhere in state. In these situations, we can use the `simpleSetters` helper to map mutation names to state.
-
-```js
-import { simpleSetters } from 'spyfu-vuex-helpers';
-
-export default {
-    ...simpleSetters({
-        mutationName: 'path.to.state',
-    }),
-}
-```
-
 <a name="simple-instance-setters"></a>
 ### simpleInstanceSetters
 
@@ -236,6 +222,36 @@ import { simpleInstanceSetters } from 'spyfu-vuex-helpers';
 
 export default {
     ...simpleInstanceSetters({
+        mutationName: 'path.to.state',
+    }),
+}
+```
+
+<a name="simple-pushers"></a>
+### simplePushers
+
+Similar to [`simpleSetters`](#simple-setters), but simply pushes a value onto an array.
+
+```js
+import { simplePushers } from 'spyfu-vuex-helpers';
+
+export default {
+    ...simplePusher({
+        mutationName: 'path.to.array',
+    }),
+}
+```
+
+<a name="simple-setters"></a>
+### simpleSetters
+
+Often a mutation exists only to take some input, and put it somewhere in state. In these situations, we can use the `simpleSetters` helper to map mutation names to state.
+
+```js
+import { simpleSetters } from 'spyfu-vuex-helpers';
+
+export default {
+    ...simpleSetters({
         mutationName: 'path.to.state',
     }),
 }
