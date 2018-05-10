@@ -612,6 +612,63 @@
       }, {});
   }
 
+  /* eslint-disable */
+
+  /**
+   * Simple mutations that removes a value from an array.
+   *
+   * @param  {Object} removers     Object mapping mutations to state
+   * @return {Object}
+   */
+  function simple_removers (removers) {
+      // loop over the setter keys and make a mutation for each
+      return Object.keys(removers).reduce(function (mutations, name) {
+
+          // attach our new mutation to result
+          return Object.assign({}, mutations, defineProperty({}, name, function (state, removeVal) {
+              var mutationName = removers[name];
+
+              // if the target has a dot, remove our value from the nested array
+              if (mutationName.indexOf('.') > -1) {
+                  var obj = removers[name].split('.');
+                  var key = obj.pop();
+                  var parentObj = resolveObjectPath(state, obj);
+
+                  // dev errors
+                  if (process.env.NODE_ENV !== 'production') {
+                      // target path must resolve to an array
+                      if (!parentObj || typeof parentObj[key] === 'undefined') {
+                          error('simpleRemover mutation failed, target "' + mutationName + '" is undefined.');
+                      } else if (!Array.isArray(parentObj[key])) {
+                          error('simpleRemover mutation failed, target "' + mutationName + '" is not an array, ' + _typeof(parentObj[key]) + ' found.');
+                      }
+                  }
+
+                  parentObj[key] = parentObj[key].filter(function (val) {
+                      return val !== removeVal;
+                  });
+              }
+
+              // otherwise, just remove our value from the array
+              else {
+                      // dev errors
+                      if (process.env.NODE_ENV !== 'production') {
+                          // target must be an array
+                          if (typeof state[mutationName] === 'undefined') {
+                              error('simpleRemover mutation failed, target "' + mutationName + '" is undefined.');
+                          } else if (!Array.isArray(state[mutationName])) {
+                              error('simpleRemover mutation failed, target "' + mutationName + '" is not an array, ' + _typeof(state[mutationName]) + ' found.');
+                          }
+                      }
+
+                      state[removers[name]] = state[removers[name]].filter(function (val) {
+                          return val !== removeVal;
+                      });
+                  }
+          }));
+      }, {});
+  }
+
   /**
    * Simple mutations that set a piece of state equal to a value.
    *
@@ -649,6 +706,7 @@
   exports.resolveObjectPath = resolveObjectPath;
   exports.simpleInstanceSetters = simple_instance_setters;
   exports.simplePushers = simple_pushers;
+  exports.simpleRemovers = simple_removers;
   exports.simpleSetters = simple_setters;
 
   Object.defineProperty(exports, '__esModule', { value: true });
