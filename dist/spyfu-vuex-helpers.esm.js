@@ -6,135 +6,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
 };
 
-
-
-
-
-var asyncGenerator = function () {
-  function AwaitValue(value) {
-    this.value = value;
-  }
-
-  function AsyncGenerator(gen) {
-    var front, back;
-
-    function send(key, arg) {
-      return new Promise(function (resolve, reject) {
-        var request = {
-          key: key,
-          arg: arg,
-          resolve: resolve,
-          reject: reject,
-          next: null
-        };
-
-        if (back) {
-          back = back.next = request;
-        } else {
-          front = back = request;
-          resume(key, arg);
-        }
-      });
-    }
-
-    function resume(key, arg) {
-      try {
-        var result = gen[key](arg);
-        var value = result.value;
-
-        if (value instanceof AwaitValue) {
-          Promise.resolve(value.value).then(function (arg) {
-            resume("next", arg);
-          }, function (arg) {
-            resume("throw", arg);
-          });
-        } else {
-          settle(result.done ? "return" : "normal", result.value);
-        }
-      } catch (err) {
-        settle("throw", err);
-      }
-    }
-
-    function settle(type, value) {
-      switch (type) {
-        case "return":
-          front.resolve({
-            value: value,
-            done: true
-          });
-          break;
-
-        case "throw":
-          front.reject(value);
-          break;
-
-        default:
-          front.resolve({
-            value: value,
-            done: false
-          });
-          break;
-      }
-
-      front = front.next;
-
-      if (front) {
-        resume(front.key, front.arg);
-      } else {
-        back = null;
-      }
-    }
-
-    this._invoke = send;
-
-    if (typeof gen.return !== "function") {
-      this.return = undefined;
-    }
-  }
-
-  if (typeof Symbol === "function" && Symbol.asyncIterator) {
-    AsyncGenerator.prototype[Symbol.asyncIterator] = function () {
-      return this;
-    };
-  }
-
-  AsyncGenerator.prototype.next = function (arg) {
-    return this._invoke("next", arg);
-  };
-
-  AsyncGenerator.prototype.throw = function (arg) {
-    return this._invoke("throw", arg);
-  };
-
-  AsyncGenerator.prototype.return = function (arg) {
-    return this._invoke("return", arg);
-  };
-
-  return {
-    wrap: function (fn) {
-      return function () {
-        return new AsyncGenerator(fn.apply(this, arguments));
-      };
-    },
-    await: function (value) {
-      return new AwaitValue(value);
-    }
-  };
-}();
-
-
-
-
-
-
-
-
-
-
-
-
-
 var defineProperty = function (obj, key, value) {
   if (key in obj) {
     Object.defineProperty(obj, key, {
@@ -163,26 +34,6 @@ var _extends = Object.assign || function (target) {
 
   return target;
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 var slicedToArray = function () {
   function sliceIterator(arr, i) {
@@ -301,7 +152,7 @@ function stateAndPayloadAreValid(config, state, payload) {
  *
  * @return {Object}
  */
-var instance_getters = function () {
+function instance_getters () {
     var _parseArguments = parseArguments$1(arguments),
         getters = _parseArguments.getters,
         options = _parseArguments.options;
@@ -321,7 +172,7 @@ var instance_getters = function () {
 
         return instanceGetters;
     }, {});
-};
+}
 
 // parse arguments
 function parseArguments$1(args) {
@@ -338,7 +189,7 @@ function parseArguments$1(args) {
  *
  * @return {Object}
  */
-var instance_mutations = function () {
+function instance_mutations () {
     var _parseArguments = parseArguments$2(arguments),
         options = _parseArguments.options,
         mutations = _parseArguments.mutations;
@@ -348,7 +199,7 @@ var instance_mutations = function () {
 
         return instanceMutations;
     }, {});
-};
+}
 
 // parse arguments
 function parseArguments$2(args) {
@@ -366,14 +217,14 @@ function parseArguments$2(args) {
 }
 
 // Similar to Object.entries but without using polyfill
-var getEntries = function (obj) {
+function getEntries (obj) {
     return Object.keys(obj).map(function (key) {
         return [key, obj[key]];
     });
-};
+}
 
 // Function to compose other functions (right to left evaluation)
-var compose = function () {
+function compose () {
     var fns = arguments;
 
     return function () {
@@ -389,10 +240,10 @@ var compose = function () {
 
         return result;
     };
-};
+}
 
 // Convert KeyValuePair[] to Object
-var toObject = function (obj, keyValuePair) {
+function toObject (obj, keyValuePair) {
     var _keyValuePair = slicedToArray(keyValuePair, 2),
         key = _keyValuePair[0],
         value = _keyValuePair[1];
@@ -400,7 +251,7 @@ var toObject = function (obj, keyValuePair) {
     obj[key] = value;
 
     return obj;
-};
+}
 
 // Create a wrapper function which invokes the original function
 // passing in `this.id`
@@ -462,7 +313,7 @@ function parseMappingArguments(args) {
  * @param  {String|RegExp}  delimeter   characters / pattern to split path on
  * @return {mixed}
  */
-var resolveObjectPath = function (obj, path) {
+function resolveObjectPath (obj, path) {
     var delimeter = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '.';
 
     var pathArray = Array.isArray(path) ? path : path.split(delimeter);
@@ -470,9 +321,9 @@ var resolveObjectPath = function (obj, path) {
     return pathArray.reduce(function (p, item) {
         return p && p[item];
     }, obj);
-};
+}
 
-var map_instance_state = function () {
+function map_instance_state () {
     // extract our namespace and mappings from the arguments
     var _parseMappingArgument = parseMappingArguments(arguments),
         namespace = _parseMappingArgument.namespace,
@@ -503,7 +354,7 @@ var map_instance_state = function () {
     });
 
     return computedProperties;
-};
+}
 
 // normalize the mappings into a consistent object format
 function normalizeMappings(mappings) {
@@ -555,7 +406,7 @@ function createGetter(_ref) {
  * @param  {Object}         optional state mappings
  * @return {Object}
  */
-var map_two_way_state = function () {
+function map_two_way_state () {
     // this function supports two argument signatures. if the
     // first argument is a string, we will use that as the
     // namespace, and the next arg as the state mapping
@@ -579,7 +430,7 @@ var map_two_way_state = function () {
     });
 
     return computedProperties;
-};
+}
 
 // determine the values of our namespace and mappings
 function parseArguments$3(args) {
@@ -643,7 +494,7 @@ function createSetter(namespace, mappings) {
  * @param  {String}
  * @return {Object}
  */
-var simple_instance_setters = function (setters) {
+function simple_instance_setters (setters) {
     var stateKey = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'instances';
     var instanceKey = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'id';
 
@@ -675,7 +526,7 @@ var simple_instance_setters = function (setters) {
             }
         }));
     }, {});
-};
+}
 
 // helper function to find the correct instance
 function findInstance(state, stateKey, instanceKey, payload) {
@@ -699,13 +550,13 @@ function findValue(payload, instanceKey) {
 
 // helper to throw consistent errors
 // this is useful in testing to make sure caught errors are ours
-var error = function (message) {
+function error (message) {
     for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
         args[_key - 1] = arguments[_key];
     }
 
     throw new (Function.prototype.bind.apply(Error, [null].concat(['[spyfu-vuex-helpers]: ' + message], args)))();
-};
+}
 
 /**
  * Simple mutations pushes values onto an array.
@@ -713,7 +564,7 @@ var error = function (message) {
  * @param  {Object} pushers Object mapping mutations to state
  * @return {Object}
  */
-var simple_pushers = function (pushers) {
+function simple_pushers (pushers) {
     return Object.keys(pushers).reduce(function (mutations, name) {
         return _extends({}, mutations, defineProperty({}, name, function (state, value) {
             var mutationName = pushers[name];
@@ -755,7 +606,7 @@ var simple_pushers = function (pushers) {
                 }
         }));
     }, {});
-};
+}
 
 /**
  * Simple mutations that set a piece of state equal to a value.
@@ -763,7 +614,7 @@ var simple_pushers = function (pushers) {
  * @param  {Object} setters     Object mapping mutations to state
  * @return {Object}
  */
-var simple_setters = function (setters) {
+function simple_setters (setters) {
     // loop over the setter keys and make a mutation for each
     return Object.keys(setters).reduce(function (mutations, name) {
 
@@ -783,7 +634,7 @@ var simple_setters = function (setters) {
             else state[setters[name]] = value;
         }));
     }, {});
-};
+}
 
 export { findInstanceThen, instance_getters as instanceGetters, instance_mutations as instanceMutations, mapInstanceGetters, map_instance_state as mapInstanceState, map_two_way_state as mapTwoWayState, resolveObjectPath, simple_instance_setters as simpleInstanceSetters, simple_pushers as simplePushers, simple_setters as simpleSetters };
 //# sourceMappingURL=spyfu-vuex-helpers.esm.js.map
