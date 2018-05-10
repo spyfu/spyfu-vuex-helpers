@@ -154,6 +154,20 @@ var defineProperty = function (obj, key, value) {
   return obj;
 };
 
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
+};
+
 
 
 
@@ -687,6 +701,66 @@ function findValue(payload, instanceKey) {
     throw new Error('Failed to mutate instance, no value found in payload.', payload);
 }
 
+// helper to throw consistent errors
+// this is useful in testing to make sure caught errors are ours
+var error = function (message) {
+    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+    }
+
+    throw new (Function.prototype.bind.apply(Error, [null].concat(['[spyfu-vuex-helpers]: ' + message], args)))();
+};
+
+/**
+ * Simple mutations pushes values onto an array.
+ *
+ * @param  {Object} pushers Object mapping mutations to state
+ * @return {Object}
+ */
+var simple_pushers = function (pushers) {
+    return Object.keys(pushers).reduce(function (mutations, name) {
+        return _extends({}, mutations, defineProperty({}, name, function (state, value) {
+            var mutationName = pushers[name];
+
+            // if the pusher name has a dot, then resolve the
+            // array path before pushing our value onto it
+            if (mutationName.indexOf('.') > -1) {
+                var obj = mutationName.split('.');
+                var key = obj.pop();
+                var parentObj = resolveObjectPath(state, obj);
+
+                // dev errors
+                if (process.env.NODE_ENV !== 'production') {
+                    // target path must resolve to an array
+                    if (!parentObj || typeof parentObj[key] === 'undefined') {
+                        error('simplePusher mutation failed, target "' + mutationName + '" is undefined.');
+                    } else if (!Array.isArray(parentObj[key])) {
+                        error('simplePusher mutation failed, target "' + mutationName + '" is not an array, ' + _typeof(parentObj[key]) + ' found.');
+                    }
+                }
+
+                parentObj[key].push(value);
+            }
+
+            // otherwise, just push our value onto the array
+            else {
+
+                    // dev errors
+                    if (process.env.NODE_ENV !== 'production') {
+                        // target must be an array
+                        if (typeof state[mutationName] === 'undefined') {
+                            error('simplePusher mutation failed, target "' + mutationName + '" is undefined.');
+                        } else if (!Array.isArray(state[mutationName])) {
+                            error('simplePusher mutation failed, target "' + mutationName + '" is not an array, ' + _typeof(state[mutationName]) + ' found.');
+                        }
+                    }
+
+                    state[mutationName].push(value);
+                }
+        }));
+    }, {});
+};
+
 /**
  * Simple mutations that set a piece of state equal to a value.
  *
@@ -723,6 +797,7 @@ exports.mapInstanceState = map_instance_state;
 exports.mapTwoWayState = map_two_way_state;
 exports.resolveObjectPath = resolveObjectPath;
 exports.simpleInstanceSetters = simple_instance_setters;
+exports.simplePushers = simple_pushers;
 exports.simpleSetters = simple_setters;
 
 Object.defineProperty(exports, '__esModule', { value: true });
