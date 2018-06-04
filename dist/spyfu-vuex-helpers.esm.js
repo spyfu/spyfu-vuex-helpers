@@ -1,5 +1,17 @@
 import { mapGetters } from 'vuex';
 
+/**
+ * Mutation to set the entire state of a module.
+ * 
+ * @param  {Function}   stateFactory    a function that returns a fresh state object
+ * @return {Function}
+ */
+function assign_state (stateFactory) {
+    return function (state) {
+        Object.assign(state, stateFactory());
+    };
+}
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
 } : function (obj) {
@@ -693,5 +705,5 @@ function simple_setters (setters) {
     }, {});
 }
 
-export { findInstanceThen, instance_getters as instanceGetters, instance_mutations as instanceMutations, mapInstanceGetters, map_instance_state as mapInstanceState, map_two_way_state as mapTwoWayState, resolveObjectPath, simple_instance_setters as simpleInstanceSetters, simple_pushers as simplePushers, simple_removers as simpleRemovers, simple_setters as simpleSetters };
+export { assign_state as assignState, findInstanceThen, instance_getters as instanceGetters, instance_mutations as instanceMutations, mapInstanceGetters, map_instance_state as mapInstanceState, map_two_way_state as mapTwoWayState, resolveObjectPath, simple_instance_setters as simpleInstanceSetters, simple_pushers as simplePushers, simple_removers as simpleRemovers, simple_setters as simpleSetters };
 //# sourceMappingURL=spyfu-vuex-helpers.esm.js.map
