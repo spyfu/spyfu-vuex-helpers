@@ -19,6 +19,7 @@ $ npm install spyfu-vuex-helpers
 $ yarn add spyfu-vuex-helpers
 ```
 
+- [assignState](#assign-state)
 - [findInstanceThen](#find-instance-then)
 - [instanceGetters](#instance-getters)
 - [instanceMutations](#instance-mutations)
@@ -30,6 +31,19 @@ $ yarn add spyfu-vuex-helpers
 - [simplePushers](#simple-pushers)
 - [simpleRemovers](#simple-removers)
 - [simpleSetters](#simple-setters)
+
+<a name="assign-state"></a>
+### assignState
+
+Occasionally, you'll need to set the entire state of a module at once. This is typically done to reset a module back to it's original state. In these situations, the `assignState` helper can be used.
+
+```js
+import { assignState } from 'spyfu-vuex-helpers';
+
+export default {
+    reset: assignState(defaultStateFn),
+}
+```
 
 <a name="find-instance-then"></a>
 ### findInstanceThen
