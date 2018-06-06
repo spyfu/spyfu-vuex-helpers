@@ -196,5 +196,10 @@ describe('mapTwoWayState', () => {
         vm.four = 'new four';
 
         expect(commit.calledWith('setFour', 'new four')).to.be.true;
-    })
+    });
+
+    it('throws an error when an array is provided as the state mapping', () => {
+        expect(() => mapTwoWayState([])).to.throw();
+        expect(() => mapTwoWayState('namespace', [])).to.throw();
+    });
 });
