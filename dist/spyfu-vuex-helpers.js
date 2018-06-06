@@ -415,6 +415,16 @@
         };
     }
 
+    // helper to throw consistent errors
+    // this is useful in testing to make sure caught errors are ours
+    function error (message) {
+        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+            args[_key - 1] = arguments[_key];
+        }
+
+        throw new (Function.prototype.bind.apply(Error, [null].concat(['[spyfu-vuex-helpers]: ' + message], args)))();
+    }
+
     /**
      * Map vuex state with two way computed properties
      *
@@ -459,6 +469,11 @@
     // determine our key and mutation values
     function parseMappings(obj) {
         var mapping = {};
+
+        // throw a helpful error when mapTwoWayState is mixed up with mapState
+        if (Array.isArray(obj)) {
+            error('Invalid arguments for mapTwoWayState. State mapping must be an object in { \'path.to.state\': \'mutationName\' } format.');
+        }
 
         Object.keys(obj).forEach(function (key) {
             var value = obj[key];
@@ -562,16 +577,6 @@
         // if we don't have a value, throw an error because the payload is invalid.
         /* istanbul ignore next */
         throw new Error('Failed to mutate instance, no value found in payload.', payload);
-    }
-
-    // helper to throw consistent errors
-    // this is useful in testing to make sure caught errors are ours
-    function error (message) {
-        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-            args[_key - 1] = arguments[_key];
-        }
-
-        throw new (Function.prototype.bind.apply(Error, [null].concat(['[spyfu-vuex-helpers]: ' + message], args)))();
     }
 
     /**
