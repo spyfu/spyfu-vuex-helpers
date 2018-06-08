@@ -245,7 +245,7 @@ export default {
 <a name="simple-pushers"></a>
 ### simplePushers
 
-Similar to [`simpleSetters`](#simple-setters), but simply pushes a value onto an array.
+Similar to [`simpleSetters`](#simple-setters), but pushes a value onto an array.
 
 ```js
 import { simplePushers } from 'spyfu-vuex-helpers';
@@ -260,7 +260,7 @@ export default {
 <a name="simple-removers"></a>
 ### simpleRemovers
 
-Similar to [`simpleSetters`](#simple-setters) and [`simplePushers`](#simple-pushers), but removes a value from an array.
+Similar to [`simplePushers`](#simple-pushers), this helper filters a value out of an array.
 
 ```js
 import { simplePushers } from 'spyfu-vuex-helpers';
