@@ -51,5 +51,6 @@
   },
   "peerDependencies": {
     "vuex": "^3.0.1"
-  }
+  },
+  "types": "index.d.ts"
 }
