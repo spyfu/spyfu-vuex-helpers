@@ -23,7 +23,8 @@
   },
   "files": [
     "lib",
-    "dist"
+    "dist",
+    "index.d.ts"
   ],
   "homepage": "https://github.com/spyfu/spyfu-vuex-helpers",
   "dependencies": {},
